@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Invoice Preview — InvoicePro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  
+  <!-- ===== PDF LIBRARIES ===== -->
+  <!-- html2pdf.js - Main library for PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <!-- html2canvas - Captures HTML as canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- jsPDF - Creates PDF from canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+  /* ===== PRINT STYLES ===== */
+  @media print {
+    /* Hide everything except the invoice */
+    .navbar,
+    .navbar-actions,
+    .theme-toggle,
+    .btn,
+    .no-print,
+    #invoiceContainer > div:last-child,
+    .container > div:first-child {
+      display: none !important;
+    }
+
+    /* Show only the invoice */
+    .invoice-preview {
+      border: none !important;
+      box-shadow: none !important;
+      padding: 20px !important;
+      margin: 0 !important;
+      max-width: 100% !important;
+      background: white !important;
+      color: black !important;
+    }
+
+    body {
+      background: white !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .container {
+      max-width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    /* Ensure table looks clean */
+    .invoice-preview table {
+      border-collapse: collapse !important;
+      width: 100% !important;
+    }
+
+    .invoice-preview table th,
+    .invoice-preview table td {
+      border: 1px solid #ddd !important;
+      padding: 8px 12px !important;
+    }
+
+    .invoice-preview table th {
+      background: #f5f5f5 !important;
+    }
+
+    /* Status badge in print */
+    .status-badge {
+      border: 1px solid #ccc !important;
+      padding: 2px 10px !important;
+      border-radius: 4px !important;
+    }
+  }
+</style>
+
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <a href="/dashboard.html" style="text-decoration: none; color: inherit;">💰 Invoice<span>Pro</span></a>
+      </div>
+      <div class="navbar-actions">
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+        <button class="btn btn-secondary" onclick="signOut()" style="padding: 8px 16px; font-size: 0.85rem;">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="container" style="padding-top: 32px; padding-bottom: 60px;">
+
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <a href="/dashboard.html" style="color: var(--text-secondary); text-decoration: none; font-size: 1.2rem;">←</a>
+        <h1 style="margin: 0;">Invoice Preview</h1>
+      </div>
+    </div>
+
+    <!-- ===== LOADING STATE ===== -->
+    <div id="loadingState" style="text-align: center; padding: 60px; color: var(--text-secondary);">
+      ⏳ Loading invoice...
+    </div>
+
+    <!-- ===== INVOICE CONTENT ===== -->
+    <div id="invoiceContainer" style="display: none;">
+      <div class="invoice-preview" id="invoiceContent">
+        <!-- Invoice content injected by JavaScript -->
+      </div>
+
+      <!-- ===== ACTIONS ===== -->
+      <div style="display: flex; gap: 12px; justify-content: center; margin-top: 32px; flex-wrap: wrap;">
+        <button class="btn btn-primary" onclick="sendInvoice()">📧 Send to Client</button>
+        <button class="btn btn-primary" onclick="downloadPDF()">📥 Download PDF</button>
+        <button class="btn btn-secondary" onclick="markAsSent()">Mark as Sent</button>
+        <a href="/dashboard.html" class="btn btn-secondary">Back</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- App scripts -->
+  <script src="js/supabase-client.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/invoices.js"></script>
+  <script src="js/preview.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      loadTheme();
+      updateThemeIcon();
+      
+      const user = await getCurrentUser();
+      if (!user) {
+        window.location.href = '/login.html';
+        return;
+      }
+      
+      await loadInvoicePreview();
+    });
+  </script>
+</body>
+</html>

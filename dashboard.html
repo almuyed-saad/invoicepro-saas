@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — InvoicePro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  
+  <!-- Prevent caching -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="container">
+      <!-- ✅ FIXED: Logo goes to index.html -->
+      <a href="index.html" class="navbar-brand">💰 Invoice<span>Pro</span></a>
+      <div class="navbar-actions">
+        <!-- User Avatar & Name -->
+        <div class="user-menu" onclick="window.location.href='/profile.html'" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <div class="avatar" id="userAvatar">?</div>
+          <span id="userName" style="font-weight: 500; font-size: 0.9rem;">User</span>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+        <button class="btn btn-secondary" onclick="signOut()" style="padding: 8px 16px; font-size: 0.85rem;">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="container" style="padding-top: 32px;">
+
+    <!-- ===== STATS ===== -->
+    <div class="dashboard-stats" id="dashboardStats">
+      <div class="stat-card">
+        <div class="stat-icon">📄</div>
+        <div class="stat-number" id="statTotal">0</div>
+        <div class="stat-label">Total Invoices</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📤</div>
+        <div class="stat-number" id="statSent">0</div>
+        <div class="stat-label">Sent</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-number" id="statPaid">0</div>
+        <div class="stat-label">Paid</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">💵</div>
+        <div class="stat-number" id="statRevenue">$0</div>
+        <div class="stat-label">Total Revenue</div>
+      </div>
+    </div>
+
+
+    <!-- ===== HEADER + ACTIONS ===== -->
+    <div class="dashboard-header">
+      <h2>Your Invoices</h2>
+      <div class="actions">
+        <button class="btn btn-primary" onclick="window.location.href='/new-invoice.html'">
+          + New Invoice
+        </button>
+      </div>
+    </div>
+
+    <!-- ===== INVOICE LIST ===== -->
+    <div id="invoiceList" class="invoice-list">
+      <!-- Invoices rendered by JavaScript -->
+    </div>
+
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/invoices.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/transitions.js"></script>
+
+  <script>
+    // ===== FORCE RELOAD ON BACK-FORWARD CACHE =====
+    window.addEventListener('pageshow', function(event) {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    });
+
+    // ===== LOAD DASHBOARD =====
+    document.addEventListener('DOMContentLoaded', async function() {
+      loadTheme();
+      updateThemeIcon();
+      
+      const user = await getCurrentUser();
+      if (!user) {
+        window.location.replace('/login.html');
+        return;
+      }
+      
+      // Show user info
+      const avatar = document.getElementById('userAvatar');
+      const userName = document.getElementById('userName');
+      
+      if (user.user_metadata?.full_name) {
+        avatar.textContent = getUserInitials(user.user_metadata.full_name);
+        userName.textContent = user.user_metadata.full_name;
+      } else if (user.email) {
+        avatar.textContent = getUserInitials(user.email);
+        userName.textContent = user.email.split('@')[0];
+      }
+      
+      await loadDashboard();
+    });
+  </script>
+</body>
+</html>

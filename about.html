@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — InvoicePro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ===== ABOUT PAGE ===== */
+    .about-hero {
+      padding: 60px 0 40px;
+      text-align: center;
+      position: relative;
+    }
+    .about-hero h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .about-hero p {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .profile-card {
+      max-width: 600px;
+      margin: 0 auto 60px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 48px 40px;
+      text-align: center;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(79,70,229,0.03), rgba(124,58,237,0.03));
+      pointer-events: none;
+    }
+    .profile-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+      border-color: var(--accent);
+    }
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: white;
+      box-shadow: 0 8px 32px rgba(79,70,229,0.3);
+    }
+    .profile-name {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .profile-role {
+      color: var(--text-secondary);
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+    .profile-bio {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+    .profile-contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 24px;
+      border-radius: 999px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      margin: 4px 8px;
+      font-size: 0.9rem;
+    }
+    .profile-contact:hover {
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      color: white;
+      border-color: transparent;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(79,70,229,0.3);
+    }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .social-btn:hover {
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      color: white;
+      border-color: transparent;
+      transform: translateY(-4px) scale(1.1);
+      box-shadow: 0 8px 24px rgba(79,70,229,0.25);
+    }
+    .tech-stack {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .tech-tag {
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      background: var(--bg-hover);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+    .tech-tag:hover {
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      color: white;
+      border-color: transparent;
+      transform: translateY(-2px);
+    }
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 700px;
+      margin: 0 auto 60px;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      transition: var(--transition);
+    }
+    .stat-item:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .stat-item .number {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-item .label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+    .about-mission {
+      max-width: 700px;
+      margin: 0 auto 60px;
+      text-align: center;
+      padding: 40px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+    }
+    .about-mission h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .about-mission p {
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+    @media (max-width: 768px) {
+      .about-stats { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .profile-card { padding: 32px 20px; }
+      .about-hero h1 { font-size: 2.2rem; }
+      .about-mission { padding: 24px; }
+    }
+    @media (max-width: 480px) {
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      .stat-item .number { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand">💰 Invoice<span>Pro</span></a>
+      <div class="navbar-actions">
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+        <a href="login.html" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;">Log In</a>
+        <a href="signup.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.85rem;">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== ABOUT HERO ===== -->
+  <section class="about-hero">
+    <div class="container">
+      <h1>About InvoicePro</h1>
+      <p>Simple, beautiful invoicing for freelancers and small businesses.</p>
+    </div>
+  </section>
+
+  <!-- ===== STATS ===== -->
+  <div class="container">
+    <div class="about-stats">
+      <div class="stat-item">
+        <div class="number">1</div>
+        <div class="label">Founder</div>
+      </div>
+      <div class="stat-item">
+        <div class="number">8+</div>
+        <div class="label">Posts</div>
+      </div>
+      <div class="stat-item">
+        <div class="number">∞</div>
+        <div class="label">Possibilities</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MISSION ===== -->
+  <div class="container">
+    <div class="about-mission">
+      <h2>Why I Built This</h2>
+      <p>
+        I'm <strong>Almuyed Saad</strong>, a mathematics student at SUST with a passion for building clean, useful tools. 
+        InvoicePro started as a personal project to solve a simple problem — invoicing is boring, repetitive, and takes too long. 
+        I wanted something fast, clean, and free for freelancers who just want to get paid.
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== PROFILE CARD ===== -->
+  <div class="container">
+    <div class="profile-card">
+      <div class="profile-avatar">AS</div>
+      <h2 class="profile-name">Almuyed Saad</h2>
+      <p class="profile-role">Founder & Developer</p>
+      <p class="profile-bio">
+        I believe good tools should be simple, beautiful, and accessible. 
+        InvoicePro is built with that philosophy — no clutter, no complexity, just invoices that work.
+      </p>
+      <div>
+        <a href="mailto:contact.almuyedsaad236@gmail.com" class="profile-contact">
+          ✉ Email Me
+        </a>
+        <a href="https://almuyed-saad.netlify.app/" target="_blank" class="profile-contact">
+          💼 Portfolio
+        </a>
+      </div>
+      <div class="social-links">
+        <a href="#" class="social-btn" title="GitHub">🐙</a>
+        <a href="#" class="social-btn" title="LinkedIn">🔗</a>
+        <a href="#" class="social-btn" title="Twitter">🐦</a>
+      </div>
+      <div class="tech-stack">
+        <span class="tech-tag">HTML</span>
+        <span class="tech-tag">CSS</span>
+        <span class="tech-tag">JavaScript</span>
+        <span class="tech-tag">Supabase</span>
+        <span class="tech-tag">PostgreSQL</span>
+        <span class="tech-tag">Netlify</span>
+      </div>
+    </div>
+  </div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="brand-name">💰 Invoice<span>Pro</span></div>
+        <div class="brand-tagline">Simple invoicing for professionals.</div>
+      </div>
+
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+
+      <div class="footer-social">
+        <a href="#" aria-label="GitHub">🐙</a>
+        <a href="#" aria-label="LinkedIn">🔗</a>
+        <a href="#" aria-label="Twitter">🐦</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="copyright">
+        © 2026 InvoicePro. Built with <span class="heart">❤</span> by <span class="name">Almuyed Saad</span>
+      </div>
+      <div class="legal-links">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+  <script src="js/utils.js"></script>
+  <script src="js/transitions.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      loadTheme();
+    });
+  </script>
+</body>
+</html>

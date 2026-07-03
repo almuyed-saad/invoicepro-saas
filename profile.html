@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile — InvoicePro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="navbar-brand">💰 Invoice<span>Pro</span></a>
+    <div class="navbar-actions">
+      <a href="dashboard.html" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;">Dashboard</a>
+      <a href="profile.html" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.85rem; background: var(--accent); color: white;">Profile</a>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+      <button class="btn btn-secondary" onclick="signOut()" style="padding: 8px 16px; font-size: 0.85rem;">Logout</button>
+    </div>
+  </div>
+</nav>
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="container" style="padding-top: 32px; padding-bottom: 60px;">
+
+    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 32px;">
+      <a href="/dashboard.html" style="color: var(--text-secondary); text-decoration: none; font-size: 1.2rem;">←</a>
+      <h1 style="margin: 0;">My Profile</h1>
+    </div>
+
+    <div class="profile-section">
+      <div class="card">
+
+        <!-- ===== AVATAR ===== -->
+        <div style="text-align: center;">
+          <div class="profile-avatar" id="profileAvatar">?</div>
+        </div>
+
+        <!-- ===== PROFILE INFO ===== -->
+        <div id="profileInfo">
+          <div style="margin-bottom: 12px;">
+            <div style="font-size: 0.85rem; color: var(--text-secondary);">Email</div>
+            <div id="profileEmail" style="font-weight: 500;">Loading...</div>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <div style="font-size: 0.85rem; color: var(--text-secondary);">Member Since</div>
+            <div id="profileJoined" style="font-weight: 500;">Loading...</div>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <div style="font-size: 0.85rem; color: var(--text-secondary);">Total Invoices</div>
+            <div id="profileInvoiceCount" style="font-weight: 500;">Loading...</div>
+          </div>
+        </div>
+
+        <!-- ===== UPDATE NAME ===== -->
+        <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-color);">
+          <h3 style="margin-bottom: 12px;">Update Display Name</h3>
+          <form id="profileForm" onsubmit="handleProfileUpdate(event)">
+            <div class="form-group">
+              <label for="displayName">Display Name</label>
+              <input type="text" id="displayName" placeholder="Your name" />
+            </div>
+            <button type="submit" class="btn btn-primary" id="updateProfileBtn">Update Profile</button>
+          </form>
+        </div>
+
+        <!-- ===== CHANGE PASSWORD ===== -->
+        <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-color);">
+          <h3 style="margin-bottom: 12px;">Change Password</h3>
+          <form id="passwordForm" onsubmit="handlePasswordChange(event)">
+            <div class="form-group">
+              <label for="newPassword">New Password</label>
+              <input type="password" id="newPassword" placeholder="At least 6 characters" required minlength="6" />
+            </div>
+            <button type="submit" class="btn btn-primary" id="updatePasswordBtn">Update Password</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/invoices.js"></script>
+  <script src="js/profile.js"></script>
+  <script src="js/transitions.js"></script>
+
+  <script>
+    // ===== LOAD THEME AND CHECK AUTH =====
+    document.addEventListener('DOMContentLoaded', async function() {
+      loadTheme();
+      updateThemeIcon();
+      
+      const user = await getCurrentUser();
+      if (!user) {
+        window.location.href = '/login.html';
+        return;
+      }
+      
+      // Load profile
+      await loadProfile();
+    });
+  </script>
+</body>
+</html>

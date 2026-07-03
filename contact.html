@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — InvoicePro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ===== CONTACT PAGE ===== */
+    .contact-page {
+      padding: 60px 0 80px;
+    }
+    .contact-page .page-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .contact-page .page-header h1 {
+      font-size: 2.8rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .contact-page .page-header p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* ===== CONTACT INFO ===== */
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .contact-info .info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px 28px;
+      transition: var(--transition);
+    }
+    .contact-info .info-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    }
+    .contact-info .info-card .icon {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .contact-info .info-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .contact-info .info-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .contact-info .info-card a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .contact-info .info-card a:hover {
+      color: var(--accent-hover);
+      text-decoration: underline;
+    }
+
+    /* ===== CONTACT FORM ===== */
+    .contact-form {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 40px;
+      transition: var(--transition);
+    }
+    .contact-form:hover {
+      border-color: var(--accent);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+    }
+    .contact-form h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .contact-form .form-subtitle {
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+    .contact-form .form-group {
+      margin-bottom: 20px;
+    }
+    .contact-form .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .contact-form .form-group input,
+    .contact-form .form-group textarea {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      background: var(--bg-input);
+      color: var(--text-primary);
+      font-family: var(--font-family);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    .contact-form .form-group input:focus,
+    .contact-form .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-light);
+      transform: translateY(-1px);
+    }
+    .contact-form .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    .contact-form .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .contact-form .btn-submit {
+      width: 100%;
+      padding: 14px;
+      font-size: 1rem;
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .contact-form .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(79,70,229,0.3);
+    }
+    .contact-form .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+    .contact-form .form-success {
+      display: none;
+      margin-top: 16px;
+      padding: 16px 20px;
+      background: #D1FAE5;
+      color: #065F46;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+    .contact-form .form-success.show {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+    .contact-form .form-error {
+      display: none;
+      margin-top: 16px;
+      padding: 16px 20px;
+      background: #FEE2E2;
+      color: #991B1B;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+    .contact-form .form-error.show {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .contact-info {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+    }
+    @media (max-width: 768px) {
+      .contact-page { padding: 40px 0 60px; }
+      .contact-page .page-header h1 { font-size: 2.2rem; }
+      .contact-form { padding: 28px 20px; }
+      .contact-form .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .contact-info {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 480px) {
+      .contact-page .page-header h1 { font-size: 1.8rem; }
+      .contact-form { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand">💰 Invoice<span>Pro</span></a>
+      <div class="navbar-actions">
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+        <a href="login.html" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;">Log In</a>
+        <a href="signup.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.85rem;">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== CONTACT PAGE ===== -->
+  <div class="container contact-page">
+
+    <!-- ===== HEADER ===== -->
+    <div class="page-header">
+      <h1>Let's Talk</h1>
+      <p>Have a question, suggestion, or project in mind? Reach out — I'd love to hear from you.</p>
+    </div>
+
+    <!-- ===== CONTACT GRID ===== -->
+    <div class="contact-grid">
+
+      <!-- ===== LEFT: INFO CARDS ===== -->
+      <div class="contact-info">
+
+        <div class="info-card">
+          <span class="icon">✉</span>
+          <h3>Email</h3>
+          <p>
+            <a href="mailto:contact.almuyedsaad236@gmail.com">
+              contact.almuyedsaad236@gmail.com
+            </a>
+          </p>
+        </div>
+
+        <div class="info-card">
+          <span class="icon">📍</span>
+          <h3>Location</h3>
+          <p>Shahjalal University of Science & Technology<br />Sylhet, Bangladesh</p>
+        </div>
+
+        <div class="info-card">
+          <span class="icon">⏱</span>
+          <h3>Response Time</h3>
+          <p>Usually within 1–2 business days</p>
+        </div>
+
+        <div class="info-card">
+          <span class="icon">🔗</span>
+          <h3>Connect</h3>
+          <p style="display: flex; gap: 12px; margin-top: 8px;">
+            <a href="#" style="font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition);">🐙</a>
+            <a href="#" style="font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition);">🔗</a>
+            <a href="#" style="font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition);">🐦</a>
+          </p>
+        </div>
+
+      </div>
+
+      <!-- ===== RIGHT: FORM ===== -->
+      <div class="contact-form">
+        <h2>Send a Message</h2>
+        <p class="form-subtitle">Fill in the details below and I'll get back to you as soon as possible.</p>
+
+        <form id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" placeholder="Your name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" placeholder="you@example.com" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" placeholder="What's this about?" required />
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" placeholder="Write your message here..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitBtn">Send Message</button>
+
+          <div class="form-success" id="formSuccess">
+            ✅ Thanks for reaching out! I'll get back to you within 1–2 business days.
+          </div>
+          <div class="form-error" id="formError">
+            ❌ Something went wrong. Please try again later.
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="brand-name">💰 Invoice<span>Pro</span></div>
+        <div class="brand-tagline">Simple invoicing for professionals.</div>
+      </div>
+
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+
+      <div class="footer-social">
+        <a href="#" aria-label="GitHub">🐙</a>
+        <a href="#" aria-label="LinkedIn">🔗</a>
+        <a href="#" aria-label="Twitter">🐦</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="copyright">
+        © 2026 InvoicePro. Built with <span class="heart">❤</span> by <span class="name">Almuyed Saad</span>
+      </div>
+      <div class="legal-links">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+  <!-- ===== SCRIPTS ===== -->
+  <script src="js/utils.js"></script>
+  <script src="js/transitions.js"></script>
+  <script>
+    // ===== LOAD THEME =====
+    document.addEventListener('DOMContentLoaded', function() {
+      loadTheme();
+    });
+
+    // ===== CONTACT FORM =====
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const submitBtn = document.getElementById('submitBtn');
+      const successEl = document.getElementById('formSuccess');
+      const errorEl = document.getElementById('formError');
+
+      // Reset
+      successEl.classList.remove('show');
+      errorEl.classList.remove('show');
+
+      // Validate
+      if (!name || !email || !subject || !message) {
+        errorEl.textContent = '❌ Please fill in all fields.';
+        errorEl.classList.add('show');
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        errorEl.textContent = '❌ Please enter a valid email address.';
+        errorEl.classList.add('show');
+        return;
+      }
+
+      // Simulate sending
+      submitBtn.disabled = true;
+      submitBtn.textContent = '⏳ Sending...';
+
+      setTimeout(function() {
+        // Success (for demo — you can connect to an API later)
+        successEl.classList.add('show');
+        submitBtn.textContent = 'Send Message';
+        submitBtn.disabled = false;
+        document.getElementById('contactForm').reset();
+
+        // Hide success after 5 seconds
+        setTimeout(function() {
+          successEl.classList.remove('show');
+        }, 5000);
+      }, 1500);
+    });
+
+    // ===== HELPER: EMAIL VALIDATION =====
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+  </script>
+</body>
+</html>

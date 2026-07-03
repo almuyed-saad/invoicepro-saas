@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InvoicePro — Generate Invoices in 2 Minutes</title>
+  <meta name="description" content="Generate professional invoices in 2 minutes. Free for freelancers." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand">💰 Invoice<span>Pro</span></a>
+      <div class="navbar-actions">
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+        <a href="login.html" class="btn btn-secondary">Log In</a>
+        <a href="signup.html" class="btn btn-primary">Get Started</a>
+    </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section style="padding: 80px 0 60px; text-align: center;">
+    <div class="container">
+      <h1 style="font-size: 3.5rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 16px;">
+        Generate Invoices<br />
+        in <span style="color: var(--accent);">2 Minutes</span>
+      </h1>
+      <p style="font-size: 1.25rem; max-width: 600px; margin: 0 auto 32px; color: var(--text-secondary);">
+        Stop wasting time on manual invoicing. Create, download, and track invoices — all in one place.
+      </p>
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <a href="signup.html" class="btn btn-primary" style="padding: 16px 40px; font-size: 1.1rem;">
+          Get Started — It's Free
+        </a>
+      </div>
+      <p style="margin-top: 16px; color: var(--text-muted); font-size: 0.9rem;">
+        ⚡ No credit card required. Free for now.
+      </p>
+    </div>
+  </section>
+
+ <!-- ===== FEATURES SECTION ===== -->
+<section id="features" style="padding: 80px 0; background: var(--bg-secondary); position: relative; overflow: hidden;">
+  
+  <!-- Subtle background glow -->
+  <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(ellipse at 30% 50%, rgba(79,70,229,0.03), transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(124,58,237,0.03), transparent 60%); pointer-events: none; z-index: 0;"></div>
+  
+  <div class="container" style="position: relative; z-index: 1;">
+    <!-- Section Header -->
+    <div style="text-align: center; margin-bottom: 56px;">
+      <h2 style="font-size: 2.4rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px;">
+        Everything You <span style="background: linear-gradient(135deg, #4F46E5, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Need</span>
+      </h2>
+      <p style="color: var(--text-secondary); font-size: 1.05rem; max-width: 500px; margin: 0 auto;">
+        Simple, beautiful invoicing built for freelancers.
+      </p>
+    </div>
+
+    <!-- 6 Interactive Cards -->
+    <div class="feature-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;">
+
+      <!-- Card 1: Create Invoices (Indigo) -->
+      <div class="feature-card" data-color="indigo" style="background: linear-gradient(145deg, rgba(79,70,229,0.08), rgba(79,70,229,0.02)); border: 1px solid rgba(79,70,229,0.15); border-radius: 20px; padding: 36px 28px; text-align: center; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(79,70,229,0.08), transparent 70%); pointer-events: none; transition: all 0.6s ease;"></div>
+        <div style="font-size: 3rem; margin-bottom: 12px; display: block; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">📄</div>
+        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; color: var(--text-primary);">Create Invoices</h3>
+        <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7; margin: 0;">Fill in client details, hours, rate — we calculate the total for you instantly.</p>
+        <div style="margin-top: 16px; font-size: 0.8rem; font-weight: 600; color: #4F46E5; opacity: 0; transform: translateY(10px); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">Learn More →</div>
+      </div>
+
+      <!-- Card 2: Download PDF (Purple) -->
+      <div class="feature-card" data-color="purple" style="background: linear-gradient(145deg, rgba(124,58,237,0.08), rgba(124,58,237,0.02)); border: 1px solid rgba(124,58,237,0.15); border-radius: 20px; padding: 36px 28px; text-align: center; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(124,58,237,0.08), transparent 70%); pointer-events: none; transition: all 0.6s ease;"></div>
+        <div style="font-size: 3rem; margin-bottom: 12px; display: block; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">📥</div>
+        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; color: var(--text-primary);">Download PDF</h3>
+        <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7; margin: 0;">Generate professional PDF invoices instantly with one click.</p>
+        <div style="margin-top: 16px; font-size: 0.8rem; font-weight: 600; color: #7C3AED; opacity: 0; transform: translateY(10px); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">Learn More →</div>
+      </div>
+
+      <!-- Card 3: Track Status (Pink) -->
+      <div class="feature-card" data-color="pink" style="background: linear-gradient(145deg, rgba(236,72,153,0.08), rgba(236,72,153,0.02)); border: 1px solid rgba(236,72,153,0.15); border-radius: 20px; padding: 36px 28px; text-align: center; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(236,72,153,0.08), transparent 70%); pointer-events: none; transition: all 0.6s ease;"></div>
+        <div style="font-size: 3rem; margin-bottom: 12px; display: block; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">📊</div>
+        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; color: var(--text-primary);">Track Status</h3>
+        <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7; margin: 0;">Keep track of draft, sent, and paid invoices — all in one dashboard.</p>
+        <div style="margin-top: 16px; font-size: 0.8rem; font-weight: 600; color: #EC4899; opacity: 0; transform: translateY(10px); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">Learn More →</div>
+      </div>
+
+      <!-- Card 4: Secure & Safe (Teal) -->
+      <div class="feature-card" data-color="teal" style="background: linear-gradient(145deg, rgba(20,184,166,0.08), rgba(20,184,166,0.02)); border: 1px solid rgba(20,184,166,0.15); border-radius: 20px; padding: 36px 28px; text-align: center; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(20,184,166,0.08), transparent 70%); pointer-events: none; transition: all 0.6s ease;"></div>
+        <div style="font-size: 3rem; margin-bottom: 12px; display: block; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">🔐</div>
+        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; color: var(--text-primary);">Secure & Safe</h3>
+        <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7; margin: 0;">Your data is encrypted and protected with Row Level Security.</p>
+        <div style="margin-top: 16px; font-size: 0.8rem; font-weight: 600; color: #14B8A6; opacity: 0; transform: translateY(10px); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">Learn More →</div>
+      </div>
+
+      <!-- Card 5: Dark Mode (Orange) -->
+      <div class="feature-card" data-color="orange" style="background: linear-gradient(145deg, rgba(245,158,11,0.08), rgba(245,158,11,0.02)); border: 1px solid rgba(245,158,11,0.15); border-radius: 20px; padding: 36px 28px; text-align: center; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(245,158,11,0.08), transparent 70%); pointer-events: none; transition: all 0.6s ease;"></div>
+        <div style="font-size: 3rem; margin-bottom: 12px; display: block; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">🌙</div>
+        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; color: var(--text-primary);">Dark Mode</h3>
+        <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7; margin: 0;">Switch between light and dark themes — easy on your eyes.</p>
+        <div style="margin-top: 16px; font-size: 0.8rem; font-weight: 600; color: #F59E0B; opacity: 0; transform: translateY(10px); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">Learn More →</div>
+      </div>
+
+      <!-- Card 6: Mobile Ready (Rose) -->
+      <div class="feature-card" data-color="rose" style="background: linear-gradient(145deg, rgba(244,63,94,0.08), rgba(244,63,94,0.02)); border: 1px solid rgba(244,63,94,0.15); border-radius: 20px; padding: 36px 28px; text-align: center; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(244,63,94,0.08), transparent 70%); pointer-events: none; transition: all 0.6s ease;"></div>
+        <div style="font-size: 3rem; margin-bottom: 12px; display: block; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">📱</div>
+        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; color: var(--text-primary);">Mobile Ready</h3>
+        <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7; margin: 0;">Works on any device — desktop, tablet, or phone.</p>
+        <div style="margin-top: 16px; font-size: 0.8rem; font-weight: 600; color: #F43F5E; opacity: 0; transform: translateY(10px); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">Learn More →</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="brand-name">💰 Invoice<span>Pro</span></div>
+          <div class="brand-tagline">Simple invoicing for professionals.</div>
+        </div>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+        </div>
+        <div class="footer-social">
+          <a href="#" aria-label="GitHub">🐙</a>
+          <a href="#" aria-label="LinkedIn">🔗</a>
+          <a href="#" aria-label="Twitter">🐦</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="copyright">
+          © 2026 InvoicePro. Built with <span class="heart">❤</span> by <span class="name">Almuyed Saad</span>
+        </div>
+        <div class="legal-links">
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/transitions.js"></script>
+  <script src="js/features.js"></script>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      loadTheme();
+    });
+  </script>
+</body>
+</html>
