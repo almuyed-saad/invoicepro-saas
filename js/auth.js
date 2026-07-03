@@ -58,12 +58,13 @@ async function handleOAuthRedirect() {
   }
 }
 
+// ===== SIGN IN WITH GOOGLE =====
 async function signInWithGoogle() {
   try {
     const { data, error } = await supabaseClient.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: window.location.origin + '/dashboard.html'
+        redirectTo: 'https://invoice-pro-saas.netlify.app/dashboard.html'
       }
     });
     
@@ -71,7 +72,7 @@ async function signInWithGoogle() {
     return { success: true };
   } catch (error) {
     console.error('Google sign in error:', error);
-    showToast(error.message || 'Failed to sign in with Google', 'error');
+    showToast('Failed to sign in with Google', 'error');
     return { success: false, error: error.message };
   }
 }
