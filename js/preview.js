@@ -1,12 +1,9 @@
 // ============================================
-// PREVIEW — SUPABASE KEY
+// PREVIEW — RENDER INVOICE
 // ============================================
 
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVqdXh4dnhmYWNtcG54bGdieHFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwMTY2NjgsImV4cCI6MjA5ODU5MjY2OH0.6RIfymlXGYsvytUKPOhOpe1SPiX0kcLUNWT_HmA1IKE';
-
-// ============================================
-// INVOICE PREVIEW — RENDER AND SEND
-// ============================================
+// Use the existing supabaseKey from supabase-client.js
+// DO NOT redeclare it here — it's already available globally
 
 let currentInvoice = null;
 let currentInvoiceId = null;
@@ -105,83 +102,7 @@ function renderInvoice(invoice) {
   `;
 }
 
-// ===== SEND INVOICE =====
-async function sendInvoice() {
-  if (!currentInvoice) {
-    showToast('No invoice to send', 'error');
-    return;
-  }
-  
-  if (!currentInvoice.client_email) {
-    showToast('No client email found. Please add email in invoice.', 'warning');
-    return;
-  }
-  
-  const sendBtn = document.querySelector('.btn-primary');
-  const originalText = sendBtn.textContent;
-  sendBtn.textContent = '⏳ Preparing...';
-  sendBtn.disabled = true;
-  
-  try {
-    const invoiceNumber = generateInvoiceNumber(currentInvoice.id);
-    const date = formatDate(currentInvoice.created_at);
-    const total = formatCurrency(currentInvoice.total);
-    const clientName = currentInvoice.client_name;
-    const project = currentInvoice.project || 'Professional Services';
-    const hours = currentInvoice.hours;
-    const rate = formatCurrency(currentInvoice.rate);
-    
-    const subject = `Invoice #${invoiceNumber} from InvoicePro`;
-    const body = 
-`Dear ${clientName},
-
-Please find your invoice details below:
-
-╔═══════════════════════════════════════════════════╗
-║                                                 ║
-║                  INVOICE #${invoiceNumber}                  ║
-║                                                 ║
-╠═══════════════════════════════════════════════════╣
-║                                                 ║
-║  Date        : ${date.padEnd(30)} ║
-║  Project     : ${project.padEnd(30)} ║
-║  Hours       : ${String(hours).padEnd(30)} hrs @ ${rate} ║
-║                                                 ║
-╠═══════════════════════════════════════════════════╣
-║                                                 ║
-║  TOTAL DUE   : ${total.padEnd(30)} ║
-║                                                 ║
-╚═══════════════════════════════════════════════════╝
-
-Payment Instructions:
-Bank Transfer: 123-456-789
-Reference: ${invoiceNumber}
-
-Thank you for your business!
-InvoicePro Team`;
-    
-    window.open(`mailto:${currentInvoice.client_email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
-    
-    if (currentInvoice.status === 'draft') {
-      const updated = await updateInvoiceStatus(currentInvoice.id, 'sent');
-      if (updated) {
-        currentInvoice = updated;
-        renderInvoice(currentInvoice);
-      }
-    }
-    
-    showToast(`📧 Email opened for ${currentInvoice.client_email}`, 'success');
-    
-  } catch (error) {
-    console.error('Send error:', error);
-    showToast('Failed to prepare invoice. Please try again.', 'error');
-  } finally {
-    sendBtn.textContent = originalText;
-    sendBtn.disabled = false;
-  }
-}
-
-// ===== DOWNLOAD PDF (Native Print) =====
+// ===== DOWNLOAD PDF =====
 function downloadPDF() {
   if (!currentInvoice) {
     showToast('No invoice to download', 'error');
@@ -190,7 +111,7 @@ function downloadPDF() {
   window.print();
 }
 
-// ===== MARK INVOICE AS SENT (FIXED) =====
+// ===== MARK INVOICE AS SENT =====
 async function markAsSent() {
   if (!currentInvoice) {
     showToast('No invoice to update', 'error');
@@ -217,6 +138,68 @@ async function markAsSent() {
   } catch (error) {
     console.error('Error updating status:', error);
     showToast('Failed to update status', 'error');
+  }
+}
+
+// ===== SEND INVOICE =====
+async function sendInvoice() {
+  if (!currentInvoice) {
+    showToast('No invoice to send', 'error');
+    return;
+  }
+  
+  if (!currentInvoice.client_email) {
+    showToast('No client email found. Please add email in invoice.', 'warning');
+    return;
+  }
+  
+  const sendBtn = document.querySelector('.btn-primary');
+  const originalText = sendBtn.textContent;
+  sendBtn.textContent = '⏳ Sending...';
+  sendBtn.disabled = true;
+  
+  try {
+    const invoiceNumber = generateInvoiceNumber(currentInvoice.id);
+    const date = formatDate(currentInvoice.created_at);
+    const total = formatCurrency(currentInvoice.total);
+    
+    const subject = encodeURIComponent(`Invoice #${invoiceNumber} from InvoicePro`);
+    const body = encodeURIComponent(
+      `Dear ${currentInvoice.client_name},\n\n` +
+      `Please find your invoice details below:\n\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+      `INVOICE #${invoiceNumber}\n` +
+      `Date: ${date}\n` +
+      `Project: ${currentInvoice.project || 'Professional Services'}\n` +
+      `Hours: ${currentInvoice.hours} hrs @ ${formatCurrency(currentInvoice.rate)}/hr\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+      `TOTAL DUE: ${total}\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+      `Payment Instructions:\n` +
+      `Bank Transfer: 123-456-789\n` +
+      `Reference: ${invoiceNumber}\n\n` +
+      `Thank you for your business!\n` +
+      `InvoicePro Team`
+    );
+    
+    window.open(`mailto:${currentInvoice.client_email}?subject=${subject}&body=${body}`, '_blank');
+    
+    if (currentInvoice.status === 'draft') {
+      const updated = await updateInvoiceStatus(currentInvoice.id, 'sent');
+      if (updated) {
+        currentInvoice = updated;
+        renderInvoice(currentInvoice);
+      }
+    }
+    
+    showToast(`📧 Email opened for ${currentInvoice.client_email}`, 'success');
+    
+  } catch (error) {
+    console.error('Send error:', error);
+    showToast('Failed to prepare invoice. Please try again.', 'error');
+  } finally {
+    sendBtn.textContent = originalText;
+    sendBtn.disabled = false;
   }
 }
 
