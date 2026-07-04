@@ -1538,3 +1538,111 @@ body {
     padding: 20px 16px !important;
   }
 }
+/* ============================================
+   PREMIUM BORDER & DEPTH FIXES (LIGHT MODE ONLY)
+   ============================================ */
+
+/* === LIGHT MODE ONLY — Borders === */
+[data-theme="light"] .navbar {
+  border-bottom: 1px solid #E2E8F0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="light"] .card,
+[data-theme="light"] .feature-card,
+[data-theme="light"] .stat-card,
+[data-theme="light"] .contact-form,
+[data-theme="light"] .invoice-preview,
+[data-theme="light"] .profile-card,
+[data-theme="light"] .legal-page section,
+[data-theme="light"] .info-card {
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="light"] .auth-card {
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .invoice-item {
+  border: 1px solid #E2E8F0 !important;
+}
+
+[data-theme="light"] .invoice-item:hover {
+  border-color: #4F46E5 !important;
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.08) !important;
+}
+
+[data-theme="light"] .btn-secondary {
+  border: 1px solid #E2E8F0 !important;
+  background: #FFFFFF !important;
+}
+
+[data-theme="light"] .btn-secondary:hover {
+  border-color: #4F46E5 !important;
+  background: #F8FAFC !important;
+}
+
+[data-theme="light"] .form-group input,
+[data-theme="light"] .form-group select,
+[data-theme="light"] .form-group textarea {
+  border: 1px solid #E2E8F0 !important;
+  background: #FFFFFF !important;
+}
+
+[data-theme="light"] .form-group input:focus,
+[data-theme="light"] .form-group select:focus,
+[data-theme="light"] .form-group textarea:focus {
+  border-color: #4F46E5 !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1) !important;
+}
+
+[data-theme="light"] footer {
+  border-top: 1px solid #E2E8F0 !important;
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* === DARK MODE — Clean, No Borders === */
+[data-theme="dark"] .navbar {
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+[data-theme="dark"] .card,
+[data-theme="dark"] .feature-card,
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .contact-form,
+[data-theme="dark"] .invoice-preview,
+[data-theme="dark"] .profile-card,
+[data-theme="dark"] .legal-page section,
+[data-theme="dark"] .info-card {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+[data-theme="dark"] .auth-card {
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="dark"] .invoice-item {
+  border: none !important;
+}
+
+[data-theme="dark"] .btn-secondary {
+  border: none !important;
+  background: transparent !important;
+}
+
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group textarea {
+  border: none !important;
+  background: var(--bg-input) !important;
+}
+
+[data-theme="dark"] footer {
+  border-top: none !important;
+  box-shadow: none !important;
+}
