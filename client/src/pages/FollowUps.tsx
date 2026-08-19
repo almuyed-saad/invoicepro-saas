@@ -1,0 +1,12 @@
+import StatusBadge from "@/components/StatusBadge";
+import { Button } from "@/components/ui/button";
+import { copyText, daysOverdue, formatBDT, publicInvoiceUrl } from "@/lib/invoice";
+import { trpc } from "@/lib/trpc";
+import { BellRing, Clipboard, FileText, MessageCircle } from "lucide-react";
+import { toast } from "sonner";
+import { useLocation } from "wouter";
+
+export default function FollowUps() {
+  const [, setLocation] = useLocation(); const followUps = trpc.dashboard.followUps.useQuery();
+  return <><section className="page-head"><div><p className="eyebrow">CLIENT FOLLOW-UP QUEUE</p><h1>Keep payments moving.</h1><p>Focus on open invoices that still need your attention.</p></div></section><section className="surface-card"><div className="card-head"><div><p className="eyebrow">ACTION REQUIRED</p><h2 className="mt-1">Unpaid and overdue</h2></div><span className="status-badge status-overdue">{followUps.data?.filter(invoice => invoice.status === "overdue").length ?? 0} overdue</span></div>{followUps.data?.length ? <div>{followUps.data.map(invoice => { const overdue = invoice.status === "overdue" ? daysOverdue(invoice.dueDate) : 0; const message = `Hello ${invoice.clientName}, a quick reminder about invoice ${invoice.invoiceNumber} for ${formatBDT(invoice.totalPaisa)}. The remaining amount is ${formatBDT(invoice.outstandingPaisa)}. You can review it here: ${publicInvoiceUrl(invoice.publicToken)}`; return <article className="followup-card" key={invoice.id}><div><div className="flex items-center gap-2"><h3>{invoice.clientName}</h3><StatusBadge status={invoice.status} /></div><p>{invoice.invoiceNumber} · Due {invoice.dueDate ? new Date(invoice.dueDate).toLocaleDateString("en-BD", { day: "numeric", month: "short" }) : "not set"}</p>{overdue > 0 && <p className="overdue-copy">{overdue} day{overdue === 1 ? "" : "s"} overdue</p>}</div><div className="right"><strong className="amount">{formatBDT(invoice.outstandingPaisa)}</strong><div className="mt-2 flex justify-end gap-1"><Button className="secondary-button icon-button" onClick={async () => { await copyText(message); toast.success("Follow-up message copied"); }} aria-label="Copy follow-up"><Clipboard size={15} /></Button><Button className="secondary-button icon-button" onClick={() => setLocation(`/invoices/${invoice.id}`)} aria-label="Open invoice"><FileText size={15} /></Button></div></div></article>; })}</div> : <div className="empty-state"><BellRing size={22} />No unpaid invoices need follow-up right now.</div>}</section></>;
+}

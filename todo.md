@@ -1,0 +1,26 @@
+# Project TODO
+
+- [x] Establish InvoicePro product vocabulary, navigation, and mobile-first design system.
+- [x] Define database tables and access rules for freelancer profiles, clients, invoices, invoice line items, payments, subscriptions, and activity.
+- [x] Implement safe public invoice access using a unique non-guessable share token without requiring client login.
+- [x] Build freelancer profile setup for business name, logo, phone, email, and bKash, Nagad, Rocket, and bank transfer instructions.
+- [x] Build client management with create, edit, delete, search, and reuse in invoices.
+- [x] Build BDT-only multi-item invoice creation with fixed-price and itemized billing, due date, discount, and automatic totals.
+- [x] Implement invoice status workflow: Draft, Sent, Viewed, Partially Paid, Paid, and Overdue.
+- [x] Build invoice detail, edit, and payment-recording workflows.
+- [x] Build public shareable invoice pages showing invoice details and freelancer payment instructions without client authentication.
+- [x] Add one-tap WhatsApp and email message copying with the public invoice link.
+- [x] Build main dashboard totals, recent activity, unpaid amount, paid amount, overdue count, and invoice count.
+- [x] Build follow-up dashboard with overdue and unpaid invoices, overdue-day indicators, and action shortcuts.
+- [x] Build owner-only admin panel to view registered users and manually activate or extend subscriptions after local-payment confirmation.
+- [x] Make all screens accessible, polished, and mobile-first for Bangladesh-based freelancers.
+- [x] Add automated tests for core calculations, permissions, public share access, and subscription administration.
+- [x] Verify desktop and mobile UI, run the test suite, and document the controlled pilot workflow.
+- [x] Add client search and verify filtering works on mobile.
+- [x] Run visual QA on authenticated screens and fix any accessibility, focus, labeling, or responsive-layout gaps.
+- [x] Add secure freelancer-logo upload using managed storage and display the saved logo on client-facing invoices.
+- [x] Create a legacy-backup branch in the original InvoicePro GitHub repository before replacing application files.
+- [x] Replace the original repository application files with the verified InvoicePro Rebuild source, database migrations, and documentation while preserving Git history.
+- [x] Push the upgraded InvoicePro application to GitHub and report the legacy-data migration boundary.
+- [x] Add focused tests for client filtering and secure logo uploads without creating persistent user data.
+- [x] Add a controlled pilot workflow document for sign-in, profile setup, clients, invoices, sharing, follow-up, payment recording, and manual subscription activation.

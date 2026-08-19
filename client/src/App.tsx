@@ -1,42 +1,39 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
+import DashboardLayout from "./components/DashboardLayout";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import Admin from "./pages/Admin";
+import Clients from "./pages/Clients";
+import Dashboard from "./pages/Dashboard";
+import FollowUps from "./pages/FollowUps";
 import Home from "./pages/Home";
+import InvoiceDetail from "./pages/InvoiceDetail";
+import InvoiceEditor from "./pages/InvoiceEditor";
+import Invoices from "./pages/Invoices";
+import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
+import PublicInvoice from "./pages/PublicInvoice";
 
+function Workspace({ children }: { children: React.ReactNode }) { return <DashboardLayout>{children}</DashboardLayout>; }
 function Router() {
-  // make sure to consider if you need authentication for certain routes
-  return (
-    <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
-    </Switch>
-  );
+  return <Switch>
+    <Route path="/" component={Home} />
+    <Route path="/share/:token" component={PublicInvoice} />
+    <Route path="/dashboard">{() => <Workspace><Dashboard /></Workspace>}</Route>
+    <Route path="/invoices/new">{() => <Workspace><InvoiceEditor /></Workspace>}</Route>
+    <Route path="/invoices/:id/edit">{() => <Workspace><InvoiceEditor /></Workspace>}</Route>
+    <Route path="/invoices/:id">{() => <Workspace><InvoiceDetail /></Workspace>}</Route>
+    <Route path="/invoices">{() => <Workspace><Invoices /></Workspace>}</Route>
+    <Route path="/clients">{() => <Workspace><Clients /></Workspace>}</Route>
+    <Route path="/follow-ups">{() => <Workspace><FollowUps /></Workspace>}</Route>
+    <Route path="/profile">{() => <Workspace><Profile /></Workspace>}</Route>
+    <Route path="/admin">{() => <Workspace><Admin /></Workspace>}</Route>
+    <Route component={NotFound} />
+  </Switch>;
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
-function App() {
-  return (
-    <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
-  );
+export default function App() {
+  return <ErrorBoundary><ThemeProvider defaultTheme="light"><TooltipProvider><Toaster richColors position="top-center" /><Router /></TooltipProvider></ThemeProvider></ErrorBoundary>;
 }
-
-export default App;
