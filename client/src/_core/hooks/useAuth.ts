@@ -4,6 +4,7 @@ import { TRPCClientError } from "@trpc/client";
 import { useCallback, useEffect, useMemo } from "react";
 import { isAuthSessionCheckPending } from "@shared/authSessionState";
 import { shouldRedirectToSignIn } from "@shared/authRedirectGuard";
+import { navigateToAuthRoute } from "@shared/authRouteNavigation";
 
 type UseAuthOptions = {
   redirectOnUnauthenticated?: boolean;
@@ -76,7 +77,7 @@ export function useAuth(options?: UseAuthOptions) {
       isAlreadyAtRedirect: Boolean(redirectPath && window.location.pathname === redirectPath),
     })) return;
 
-    window.location.href = target;
+    navigateToAuthRoute(target);
   }, [
     redirectOnUnauthenticated,
     redirectPath,

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
 import { ArrowLeft, ArrowRight, CheckCircle2, Eye, EyeOff, ShieldCheck } from "lucide-react";
-import { FormEvent, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import { Link, useLocation } from "wouter";
 import { completeCustomerAuthentication } from "@shared/customerAuthFlow";
@@ -59,9 +59,9 @@ export default function Auth() {
         <h2>{mode === "register" ? "Your next invoice starts here." : "Sign in to your workspace."}</h2>
         <p className="account-description">{mode === "register" ? "Create your customer account in under a minute. No card is needed for the trial." : "Use the email address and password you chose for InvoicePro."}</p>
         <form onSubmit={submit} className="account-form">
-          {mode === "register" && <div className="field"><label>Your name</label><input autoComplete="name" value={name} onChange={event => setName(event.target.value)} placeholder="e.g. Saad Ahmed" required /></div>}
-          <div className="field"><label>Email address</label><input autoComplete="email" type="email" value={email} onChange={event => setEmail(event.target.value)} placeholder="you@example.com" required /></div>
-          <div className="field"><label>Password</label><div className="password-field"><input autoComplete={mode === "register" ? "new-password" : "current-password"} type={showPassword ? "text" : "password"} value={password} onChange={event => setPassword(event.target.value)} placeholder={mode === "register" ? "At least 8 characters" : "Your password"} minLength={8} required /><button type="button" onClick={() => setShowPassword(!showPassword)} aria-label={showPassword ? "Hide password" : "Show password"}>{showPassword ? <EyeOff size={16} /> : <Eye size={16} />}</button></div></div>
+          {mode === "register" && <div className="field"><label htmlFor="auth-name">Your name</label><input id="auth-name" autoComplete="name" value={name} onChange={event => setName(event.target.value)} placeholder="e.g. Saad Ahmed" required /></div>}
+          <div className="field"><label htmlFor="auth-email">Email address</label><input id="auth-email" autoComplete="email" type="email" value={email} onChange={event => setEmail(event.target.value)} placeholder="you@example.com" required /></div>
+          <div className="field"><label htmlFor="auth-password">Password</label><div className="password-field"><input id="auth-password" autoComplete={mode === "register" ? "new-password" : "current-password"} type={showPassword ? "text" : "password"} value={password} onChange={event => setPassword(event.target.value)} placeholder={mode === "register" ? "At least 8 characters" : "Your password"} minLength={8} required /><button type="button" onClick={() => setShowPassword(!showPassword)} aria-label={showPassword ? "Hide password" : "Show password"}>{showPassword ? <EyeOff size={16} /> : <Eye size={16} />}</button></div></div>
           <Button type="submit" className="customer-cta" disabled={pending}>{pending ? "Please wait…" : mode === "register" ? <>Start free trial <ArrowRight size={17} /></> : <>Open workspace <ArrowRight size={17} /></>}</Button>
         </form>
         <p className="account-switch">{mode === "register" ? "Already have an account?" : "New to InvoicePro?"} <button type="button" onClick={() => setMode(mode === "register" ? "login" : "register")}>{mode === "register" ? "Sign in" : "Start your free trial"}</button></p>

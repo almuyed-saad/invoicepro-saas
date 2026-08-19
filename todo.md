@@ -54,4 +54,6 @@
 - [x] Fix the live customer authentication flow so newly registered and returning customers leave the sign-in screen and enter the protected workspace reliably.
 - [x] Verify the repaired live new-customer registration, onboarding, logout, and returning-customer browser flow with a temporary QA account, then remove all related QA data.
 - [x] Add automated coverage for post-register and post-login customer session refresh and protected-route gating.
-- [ ] Add integration-focused automated coverage for Auth and useAuth, verifying session refresh before navigation and delayed protected-route redirects during refetch.
+- [x] Add integration-focused automated coverage for Auth and useAuth, verifying session refresh before navigation and delayed protected-route redirects during refetch.
+- [x] Add mounted Auth page tests for register/login session refresh, navigation, and failed-refresh handling.
+- [x] Add mounted useAuth tests showing protected-route redirect waits while auth.me refetches and occurs only after unauthenticated settlement.
