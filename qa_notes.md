@@ -100,6 +100,8 @@ The customer-session logout path now has server-side revocation using a version 
 
 The owner activation form was saved successfully. InvoicePro confirmed that the subscription was updated and the payment request was reviewed; the activation queue changed from **1 pending request** to **0 pending requests**, the QA request showed **approved**, and the temporary customer showed an **active** subscription through September 18, 2026. This completes the owner review and manual-activation verification. The QA-only account and its related records remain in place strictly pending the user's separate cleanup approval.
 
+The user subsequently approved QA cleanup. The exact temporary password customer, `invoicepro.payment.qa@invalid.test`, was deleted by its numeric ID, email address, and password-login marker. Database verification confirmed zero remaining matching user, subscription, and payment-request records. The distinct system owner record was preserved.
+
 ## Guided first-invoice journey
 
 The dashboard now presents a state-driven three-step path after registration: business details, first BDT invoice, and public-link sharing. Each step points to the appropriate existing workflow, while the sharing control remains unavailable until the first invoice exists. Once an invoice is created, the guidance directs the customer to that invoice’s established copy-message and public-link actions. The panel was reviewed at desktop width and at a 375px mobile viewport; the mobile layout stacks each step for readable labels and touch-friendly actions.

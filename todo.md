@@ -33,8 +33,8 @@
 - [x] Add conversion-oriented product messaging, empty states, trust cues, and clearer customer help routes.
 - [x] Test the customer sign-up, trial, manual-payment, and first-invoice journeys before pilot launch.
 - [x] Add owner-configurable platform payment instructions and support contact details for customer subscription requests.
-- [ ] Verify the new-customer path through first invoice and usable public share link, then remove temporary QA data.
-- [ ] Verify the customer payment-request and owner-review flow with configured platform payment instructions, then remove temporary QA data.
+- [x] Verify the new-customer path through first invoice and usable public share link, then remove temporary QA data.
+- [x] Verify the customer payment-request and owner-review flow with configured platform payment instructions, then remove temporary QA data.
 - [x] Add focused automated coverage for payment-request review and the onboarding-to-first-invoice customer journey.
 - [x] Add progressive in-product guidance from registration through onboarding, first invoice creation, and public-link sharing.
 - [x] Configure the owner-provided bKash, Nagad, Rocket, WhatsApp, and support-email details for customer subscription payments.
