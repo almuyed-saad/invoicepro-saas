@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2, Eye, EyeOff, ShieldCheck } from "l
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import { Link, useLocation } from "wouter";
-import { requireAuthenticatedCustomer } from "@shared/customerAuthNavigation";
+import { completeCustomerAuthentication } from "@shared/customerAuthFlow";
 
 export default function Auth() {
   const [, setLocation] = useLocation();
@@ -23,15 +23,19 @@ export default function Auth() {
     event.preventDefault();
     try {
       if (mode === "register") {
-        await register.mutateAsync({ name, email, password });
-        await requireAuthenticatedCustomer(() => utils.auth.me.fetch(), "Your account was created, but the session could not be opened. Please sign in again.");
-        toast.success("Your 14-day trial is ready");
-        setLocation("/onboarding");
+        await completeCustomerAuthentication({
+          authenticate: () => register.mutateAsync({ name, email, password }),
+          refreshSession: () => utils.auth.me.fetch(),
+          failureMessage: "Your account was created, but the session could not be opened. Please sign in again.",
+          onAuthenticated: () => { toast.success("Your 14-day trial is ready"); setLocation("/onboarding"); },
+        });
       } else {
-        await login.mutateAsync({ email, password });
-        await requireAuthenticatedCustomer(() => utils.auth.me.fetch(), "Your credentials were accepted, but the session could not be opened. Please try again.");
-        toast.success("Welcome back");
-        setLocation(next);
+        await completeCustomerAuthentication({
+          authenticate: () => login.mutateAsync({ email, password }),
+          refreshSession: () => utils.auth.me.fetch(),
+          failureMessage: "Your credentials were accepted, but the session could not be opened. Please try again.",
+          onAuthenticated: () => { toast.success("Welcome back"); setLocation(next); },
+        });
       }
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "We could not sign you in");

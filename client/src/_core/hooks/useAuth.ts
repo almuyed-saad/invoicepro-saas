@@ -3,6 +3,7 @@ import { trpc } from "@/lib/trpc";
 import { TRPCClientError } from "@trpc/client";
 import { useCallback, useEffect, useMemo } from "react";
 import { isAuthSessionCheckPending } from "@shared/authSessionState";
+import { shouldRedirectToSignIn } from "@shared/authRedirectGuard";
 
 type UseAuthOptions = {
   redirectOnUnauthenticated?: boolean;
@@ -66,13 +67,15 @@ export function useAuth(options?: UseAuthOptions) {
   ]);
 
   useEffect(() => {
-    if (!redirectOnUnauthenticated) return;
-    if (sessionCheckPending) return;
-    if (state.user) return;
     if (typeof window === "undefined") return;
-    if (redirectPath && window.location.pathname === redirectPath) return;
-
     const target = redirectPath || `/sign-in?next=${encodeURIComponent(window.location.pathname)}`;
+    if (!shouldRedirectToSignIn({
+      redirectOnUnauthenticated,
+      sessionCheckPending,
+      hasUser: Boolean(state.user),
+      isAlreadyAtRedirect: Boolean(redirectPath && window.location.pathname === redirectPath),
+    })) return;
+
     window.location.href = target;
   }, [
     redirectOnUnauthenticated,
