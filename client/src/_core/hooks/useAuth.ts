@@ -2,6 +2,7 @@ import { startLogin } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { TRPCClientError } from "@trpc/client";
 import { useCallback, useEffect, useMemo } from "react";
+import { isAuthSessionCheckPending } from "@shared/authSessionState";
 
 type UseAuthOptions = {
   redirectOnUnauthenticated?: boolean;
@@ -44,24 +45,29 @@ export function useAuth(options?: UseAuthOptions) {
     }
   }, [logoutMutation, utils]);
 
+  const sessionCheckPending = isAuthSessionCheckPending({
+    isLoading: meQuery.isLoading,
+    isFetching: meQuery.isFetching,
+    isLoggingOut: logoutMutation.isPending,
+  });
+
   const state = useMemo(() => {
     return {
       user: meQuery.data ?? null,
-      loading: meQuery.isLoading || logoutMutation.isPending,
+      loading: sessionCheckPending,
       error: meQuery.error ?? logoutMutation.error ?? null,
       isAuthenticated: Boolean(meQuery.data),
     };
   }, [
     meQuery.data,
     meQuery.error,
-    meQuery.isLoading,
     logoutMutation.error,
-    logoutMutation.isPending,
+    sessionCheckPending,
   ]);
 
   useEffect(() => {
     if (!redirectOnUnauthenticated) return;
-    if (meQuery.isLoading || logoutMutation.isPending) return;
+    if (sessionCheckPending) return;
     if (state.user) return;
     if (typeof window === "undefined") return;
     if (redirectPath && window.location.pathname === redirectPath) return;
@@ -71,8 +77,7 @@ export function useAuth(options?: UseAuthOptions) {
   }, [
     redirectOnUnauthenticated,
     redirectPath,
-    logoutMutation.isPending,
-    meQuery.isLoading,
+    sessionCheckPending,
     state.user,
   ]);
 

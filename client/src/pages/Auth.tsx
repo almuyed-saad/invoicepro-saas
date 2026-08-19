@@ -23,13 +23,15 @@ export default function Auth() {
     try {
       if (mode === "register") {
         await register.mutateAsync({ name, email, password });
+        const customer = await utils.auth.me.fetch();
+        if (!customer) throw new Error("Your account was created, but the session could not be opened. Please sign in again.");
         toast.success("Your 14-day trial is ready");
-        await utils.auth.me.invalidate();
         setLocation("/onboarding");
       } else {
         await login.mutateAsync({ email, password });
+        const customer = await utils.auth.me.fetch();
+        if (!customer) throw new Error("Your credentials were accepted, but the session could not be opened. Please try again.");
         toast.success("Welcome back");
-        await utils.auth.me.invalidate();
         setLocation(next);
       }
     } catch (error) {
