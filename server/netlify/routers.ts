@@ -149,9 +149,6 @@ export const appRouter = router({
   }),
   admin: router({
     users: ownerProcedure().query(() => db.listAdminUsers()),
-    removeApprovedQaUser: ownerProcedure().input(z.object({
-      email: z.string().trim().toLowerCase().regex(/^qa-live-[a-z0-9-]+@qa\.invoicepro\.local$/, "Use the approved QA customer email"),
-    })).mutation(({ input }) => db.removeApprovedQaUser(input.email)),
     updateSubscription: ownerProcedure().input(z.object({
       userId: z.number().int().positive(),
       status: z.enum(["inactive", "trial", "active", "expired"]),
