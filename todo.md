@@ -44,8 +44,9 @@
 - [x] Verify owner-session recovery and approve a QA-only manual payment request end to end.
 - [x] Add progressive in-product guidance from registration through onboarding, first invoice creation, and public-link sharing.
 - [x] Add focused automated coverage for payment-request review and the onboarding-to-first-invoice journey.
-- [ ] Update the established public InvoicePro deployment so the existing live URL serves the rebuilt application.
-- [ ] Convert the InvoicePro API, session handling, and routing to Netlify Functions while preserving existing client contracts.
-- [ ] Provision a production database, apply the InvoicePro schema, and configure required Netlify environment variables.
+- [x] Update the established public InvoicePro deployment so the existing live URL serves the rebuilt application.
+- [x] Convert the InvoicePro API, session handling, and routing to Netlify Functions while preserving existing client contracts.
+- [x] Provision a production database, apply the InvoicePro schema, and configure required Netlify environment variables.
 - [ ] Deploy and verify customer registration, sign-in, protected workspace, public invoice, and owner activation at invoice-pro-saas.netlify.app.
-- [ ] Provision an isolated InvoicePro production database without resetting or altering the user’s shared Supabase project.
+- [x] Provision an isolated InvoicePro production database without resetting or altering the user’s shared Supabase project.
+- [x] Seed the owner-provided bKash, Nagad, Rocket, WhatsApp, and support-email payment details in the isolated production database.

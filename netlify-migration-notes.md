@@ -38,6 +38,8 @@ The `JWT_SECRET` form has been marked secret and Netlify applies the protected v
 
 The generated initial owner credential has been placed in Netlify’s environment-variable import form and marked secret. It has not been written to the repository or migration notes.
 
+The existing `invoice-pro-saas.netlify.app` site now deploys from the rebuilt repository main branch. The initial function package omitted Express because it was marked external; removing that override and redeploying restored the public `/api/trpc` runtime. The public site, public API, owner login, cookie issuance, and protected owner query have been verified against the isolated `invoicepro` schema. The initial owner account was created directly in that schema after Netlify did not expose the owner-bootstrap variable during the first function invocation. The distinct my-blog Supabase project was not changed.
+
 ## Migration boundary
 
 Do not deploy only the frontend to Netlify: that would make the interface visible while customer login, sessions, invoices, and database calls fail. The migration must provide a Netlify-compatible API layer, a production PostgreSQL adapter/schema, and production environment configuration before the existing URL is switched to the rebuilt application.
