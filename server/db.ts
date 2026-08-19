@@ -4,11 +4,14 @@ import { randomBytes } from "node:crypto";
 import {
   activityLogs,
   clients,
+  customerCredentials,
   freelancerProfiles,
   invoiceItems,
   invoicePayments,
   invoices,
   invoiceViews,
+  paymentRequests,
+  platformSettings,
   subscriptions,
   type InsertUser,
   type User,
@@ -52,6 +55,62 @@ export async function getUserByOpenId(openId: string): Promise<User | undefined>
   const db = await getDb();
   const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
   return result[0];
+}
+
+export async function getUserById(id: number): Promise<User | undefined> {
+  const db = await getDb();
+  const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
+  return result[0];
+}
+
+export async function invalidateCustomerSessions(userId: number) {
+  const db = await getDb();
+  await db
+    .update(users)
+    .set({ customerSessionVersion: sql`${users.customerSessionVersion} + 1` })
+    .where(eq(users.id, userId));
+}
+
+export async function getUserByEmail(email: string): Promise<User | undefined> {
+  const db = await getDb();
+  const result = await db.select().from(users).where(eq(users.email, email.toLowerCase())).limit(1);
+  return result[0];
+}
+
+export async function createCustomerAccount(input: { name: string; email: string; passwordHash: string }) {
+  const db = await getDb();
+  const email = input.email.toLowerCase();
+  const existing = await getUserByEmail(email);
+  if (existing) throw new Error("An account already uses this email address");
+  const trialEndsAt = new Date(Date.now() + 14 * 86_400_000);
+  const userId = await db.transaction(async tx => {
+    const created = await tx.insert(users).values({
+      openId: `customer_${randomBytes(18).toString("base64url")}`,
+      name: input.name.trim(),
+      email,
+      loginMethod: "password",
+      role: "user",
+      lastSignedIn: new Date(),
+    });
+    const id = Number(created[0].insertId);
+    await tx.insert(customerCredentials).values({ userId: id, passwordHash: input.passwordHash });
+    await tx.insert(subscriptions).values({ userId: id, status: "trial", planCode: "solo", trialEndsAt });
+    await tx.insert(activityLogs).values({ userId: id, entityType: "account", entityId: null, action: "trial_started", detail: "Started a 14-day InvoicePro trial" });
+    return id;
+  });
+  const user = await getUserById(userId);
+  if (!user) throw new Error("Customer account could not be created");
+  return user;
+}
+
+export async function getCustomerCredentialByEmail(email: string) {
+  const db = await getDb();
+  const result = await db.select({ user: users, credential: customerCredentials })
+    .from(users)
+    .innerJoin(customerCredentials, eq(customerCredentials.userId, users.id))
+    .where(eq(users.email, email.toLowerCase()))
+    .limit(1);
+  return result[0] ?? null;
 }
 
 export function toPaisa(amount: number) {
@@ -414,6 +473,98 @@ export async function getSubscription(userId: number) {
   return result[0] ?? null;
 }
 
+export async function getSubscriptionAccess(userId: number) {
+  const subscription = await getSubscription(userId);
+  const now = Date.now();
+  const hasAccess = subscription?.status === "active"
+    ? !subscription.activeUntil || subscription.activeUntil.getTime() >= now
+    : subscription?.status === "trial"
+      ? Boolean(subscription.trialEndsAt && subscription.trialEndsAt.getTime() >= now)
+      : false;
+  return { subscription, hasAccess };
+}
+
+export async function createPaymentRequest(userId: number, input: {
+  planCode: "solo" | "pro";
+  preferredMethod: "bkash" | "nagad" | "rocket" | "bank_transfer";
+  paymentReference?: string | null;
+  payerNumber?: string | null;
+  userNote?: string | null;
+}) {
+  const db = await getDb();
+  const result = await db.insert(paymentRequests).values({
+    userId,
+    planCode: input.planCode,
+    preferredMethod: input.preferredMethod,
+    paymentReference: input.paymentReference?.trim() || null,
+    payerNumber: input.payerNumber?.trim() || null,
+    userNote: input.userNote?.trim() || null,
+  });
+  const id = Number(result[0].insertId);
+  await logActivity(userId, "payment_request", id, "created", `Requested ${input.planCode} activation by ${input.preferredMethod}`);
+  const request = await db.select().from(paymentRequests).where(and(eq(paymentRequests.id, id), eq(paymentRequests.userId, userId))).limit(1);
+  return request[0];
+}
+
+export async function listPaymentRequestsForUser(userId: number) {
+  const db = await getDb();
+  return db.select().from(paymentRequests).where(eq(paymentRequests.userId, userId)).orderBy(desc(paymentRequests.createdAt));
+}
+
+export async function listAdminPaymentRequests() {
+  const db = await getDb();
+  return db.select({ request: paymentRequests, user: users, profile: freelancerProfiles })
+    .from(paymentRequests)
+    .innerJoin(users, eq(paymentRequests.userId, users.id))
+    .leftJoin(freelancerProfiles, eq(freelancerProfiles.userId, users.id))
+    .orderBy(desc(paymentRequests.createdAt));
+}
+
+export async function reviewPaymentRequest(adminUserId: number, input: { requestId: number; status: "approved" | "rejected"; ownerNote?: string | null }) {
+  const db = await getDb();
+  const request = await db.select().from(paymentRequests).where(eq(paymentRequests.id, input.requestId)).limit(1);
+  if (!request[0]) throw new Error("Payment request not found");
+  await db.update(paymentRequests).set({
+    status: input.status,
+    ownerNote: input.ownerNote?.trim() || null,
+    reviewedAt: new Date(),
+    reviewedByUserId: adminUserId,
+  }).where(eq(paymentRequests.id, input.requestId));
+  await logActivity(request[0].userId, "payment_request", request[0].id, input.status, `Payment request ${input.status} by platform owner`);
+  return { success: true } as const;
+}
+
+export async function getPlatformSettings() {
+  const db = await getDb();
+  const result = await db.select().from(platformSettings).where(eq(platformSettings.id, 1)).limit(1);
+  return result[0] ?? null;
+}
+
+export async function savePlatformSettings(adminUserId: number, input: {
+  bkashNumber?: string | null;
+  nagadNumber?: string | null;
+  rocketNumber?: string | null;
+  bankTransferInstructions?: string | null;
+  supportEmail?: string | null;
+  supportWhatsApp?: string | null;
+}) {
+  const db = await getDb();
+  const values = {
+    id: 1,
+    bkashNumber: input.bkashNumber?.trim() || null,
+    nagadNumber: input.nagadNumber?.trim() || null,
+    rocketNumber: input.rocketNumber?.trim() || null,
+    bankTransferInstructions: input.bankTransferInstructions?.trim() || null,
+    supportEmail: input.supportEmail?.trim() || null,
+    supportWhatsApp: input.supportWhatsApp?.trim() || null,
+    updatedByUserId: adminUserId,
+  };
+  await db.insert(platformSettings).values(values).onDuplicateKeyUpdate({
+    set: { ...values, id: undefined },
+  });
+  return getPlatformSettings();
+}
+
 export async function listAdminUsers() {
   const db = await getDb();
   const result = await db
@@ -429,7 +580,9 @@ export async function updateSubscription(
   adminUserId: number,
   input: {
     userId: number;
-    status: "inactive" | "active" | "expired";
+    status: "inactive" | "trial" | "active" | "expired";
+    planCode?: "solo" | "pro";
+    trialEndsAt?: number | null;
     activeUntil?: number | null;
     lastPaymentMethod?: "bkash" | "nagad" | "rocket" | "bank_transfer" | null;
     ownerNote?: string | null;
@@ -439,6 +592,8 @@ export async function updateSubscription(
   const values = {
     userId: input.userId,
     status: input.status,
+    planCode: input.planCode ?? "solo",
+    trialEndsAt: dateFromMillis(input.trialEndsAt),
     activeUntil: dateFromMillis(input.activeUntil),
     lastPaymentMethod: input.lastPaymentMethod ?? null,
     ownerNote: input.ownerNote?.trim() || null,
@@ -447,6 +602,8 @@ export async function updateSubscription(
   await db.insert(subscriptions).values(values).onDuplicateKeyUpdate({
     set: {
       status: values.status,
+      planCode: values.planCode,
+      trialEndsAt: values.trialEndsAt,
       activeUntil: values.activeUntil,
       lastPaymentMethod: values.lastPaymentMethod,
       ownerNote: values.ownerNote,

@@ -24,3 +24,23 @@
 - [x] Push the upgraded InvoicePro application to GitHub and report the legacy-data migration boundary.
 - [x] Add focused tests for client filtering and secure logo uploads without creating persistent user data.
 - [x] Add a controlled pilot workflow document for sign-in, profile setup, clients, invoices, sharing, follow-up, payment recording, and manual subscription activation.
+- [x] Diagnose and restore the InvoicePro live preview after the user reported it was not showing.
+- [x] Replace Manus-only customer access with customer-facing authentication suitable for real users.
+- [x] Add trial and subscription-gating rules that support owner-approved local payments without blocking essential onboarding.
+- [x] Build a concise onboarding journey from account creation to first BDT invoice and public share link.
+- [x] Add a customer-facing pricing and manual-payment request flow for bKash, Nagad, Rocket, and bank transfer.
+- [x] Redesign the public site and product workspace with a more distinctive color system, stronger visual hierarchy, and polished mobile interactions.
+- [x] Add conversion-oriented product messaging, empty states, trust cues, and clearer customer help routes.
+- [x] Test the customer sign-up, trial, manual-payment, and first-invoice journeys before pilot launch.
+- [x] Add owner-configurable platform payment instructions and support contact details for customer subscription requests.
+- [ ] Verify the new-customer path through first invoice and usable public share link, then remove temporary QA data.
+- [ ] Verify the customer payment-request and owner-review flow with configured platform payment instructions, then remove temporary QA data.
+- [x] Add focused automated coverage for payment-request review and the onboarding-to-first-invoice customer journey.
+- [x] Add progressive in-product guidance from registration through onboarding, first invoice creation, and public-link sharing.
+- [x] Configure the owner-provided bKash, Nagad, Rocket, WhatsApp, and support-email details for customer subscription payments.
+- [x] Restore the stopped InvoicePro development server and verify the live preview responds.
+- [x] Restore the stopped InvoicePro development server and verify the live preview responds.
+- [x] Add server-side customer-session invalidation so customer logout reliably revokes active sessions before owner review.
+- [x] Verify owner-session recovery and approve a QA-only manual payment request end to end.
+- [x] Add progressive in-product guidance from registration through onboarding, first invoice creation, and public-link sharing.
+- [x] Add focused automated coverage for payment-request review and the onboarding-to-first-invoice journey.

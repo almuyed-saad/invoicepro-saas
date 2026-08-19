@@ -1,5 +1,4 @@
 import { useAuth } from "@/_core/hooks/useAuth";
-import { startLogin } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
 import {
   BellRing,
@@ -9,6 +8,7 @@ import {
   LogOut,
   PanelLeft,
   ShieldCheck,
+  CreditCard,
   UsersRound,
 } from "lucide-react";
 import { useLocation } from "wouter";
@@ -32,6 +32,7 @@ const baseItems = [
   { icon: UsersRound, label: "Clients", path: "/clients" },
   { icon: BellRing, label: "Follow-ups", path: "/follow-ups" },
   { icon: CircleUserRound, label: "Business profile", path: "/profile" },
+  { icon: CreditCard, label: "Subscription", path: "/subscription" },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -48,7 +49,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <p className="eyebrow">InvoicePro workspace</p>
           <h1>Keep every payment moving.</h1>
           <p>Sign in to create invoices, follow up with clients, and see your BDT cash flow.</p>
-          <Button onClick={() => startLogin()} className="w-full">Sign in to InvoicePro</Button>
+          <Button onClick={() => setLocation("/sign-in")} className="w-full">Sign in to InvoicePro</Button>
         </div>
       </main>
     );

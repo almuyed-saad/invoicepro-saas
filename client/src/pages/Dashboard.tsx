@@ -1,8 +1,10 @@
 import StatusBadge from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
+import "./journey.css";
 import { trpc } from "@/lib/trpc";
 import { formatBDT, formatDate } from "@/lib/invoice";
-import { ArrowUpRight, BellRing, FileText, HandCoins, Plus, WalletCards } from "lucide-react";
+import { getFirstInvoiceJourney } from "../../../shared/customerJourney";
+import { ArrowUpRight, BellRing, CheckCircle2, CircleDashed, FileText, HandCoins, Link2, Plus, WalletCards } from "lucide-react";
 import { useLocation } from "wouter";
 
 function StatCard({ icon, label, value, overdue = false }: { icon: React.ReactNode; label: string; value: string; overdue?: boolean }) {
@@ -16,6 +18,8 @@ export default function Dashboard() {
   const profileQuery = trpc.profile.get.useQuery();
   const data = summary.data;
   const invoices = invoiceQuery.data ?? [];
+  const firstInvoiceJourney = getFirstInvoiceJourney(Boolean(profileQuery.data), invoices[0]?.id);
+  const showFirstInvoiceJourney = invoices.length < 2;
 
   return <>
     <section className="page-head">
@@ -23,6 +27,7 @@ export default function Dashboard() {
       <div className="page-actions"><Button className="primary-button" onClick={() => setLocation("/invoices/new")}><Plus size={17} />New invoice</Button></div>
     </section>
     {!profileQuery.data && <div className="surface-card mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><div><p className="eyebrow">ONE LAST STEP</p><h2 className="mt-1">Add your business and payment details.</h2><p className="mt-1 text-sm text-slate-500">Your client-facing invoices will use these details.</p></div><Button className="secondary-button" onClick={() => setLocation("/profile")}>Set up profile <ArrowUpRight size={15} /></Button></div>}
+    {showFirstInvoiceJourney && <section className="first-invoice-journey" aria-labelledby="first-invoice-journey-title"><div className="journey-intro"><div><p className="eyebrow">YOUR FIRST CLIENT-READY INVOICE</p><h2 id="first-invoice-journey-title">A clear path from setup to sharing.</h2><p>Complete these steps once. Your client does not need an InvoicePro account to open the link.</p></div><Link2 size={22} aria-hidden="true" /></div><ol className="journey-steps">{firstInvoiceJourney.map(step => <li key={step.id} className={step.complete ? "complete" : step.available ? "active" : "locked"}><span className="journey-status">{step.complete ? <CheckCircle2 size={18} /> : <CircleDashed size={18} />}</span><div><strong>{step.title}</strong><p>{step.detail}</p></div><Button type="button" className="secondary-button journey-action" disabled={!step.available} onClick={() => setLocation(step.target)}>{step.actionLabel}<ArrowUpRight size={14} /></Button></li>)}</ol></section>}
     <section className="stat-grid">
       <StatCard icon={<FileText size={16} />} label="Total invoices" value={String(data?.totalInvoices ?? 0)} />
       <StatCard icon={<WalletCards size={16} />} label="Awaiting payment" value={formatBDT(data?.totalUnpaidPaisa ?? 0)} />

@@ -1,0 +1,24 @@
+@media (max-width: 560px) {
+  body .first-invoice-journey {
+    padding: 17px;
+    border-radius: 18px;
+  }
+
+  body .journey-intro h2 {
+    font-size: 23px;
+  }
+
+  body .journey-steps {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  body .journey-steps li {
+    grid-template-columns: 21px minmax(0, 1fr);
+    padding: 12px;
+  }
+
+  body .journey-action {
+    grid-column: 2;
+  }
+}

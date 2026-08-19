@@ -1,19 +1,18 @@
 import { useAuth } from "@/_core/hooks/useAuth";
-import { startLogin } from "@/const";
-import { Check, ChevronRight, FileText, Send, WalletCards } from "lucide-react";
+import { Check, ChevronRight, FileText, Send, ShieldCheck, WalletCards } from "lucide-react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const { isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
-  const enterWorkspace = () => isAuthenticated ? setLocation("/dashboard") : startLogin();
+  const enterWorkspace = () => isAuthenticated ? setLocation("/dashboard") : setLocation("/sign-in");
 
   return (
     <div className="marketing-shell">
       <header className="marketing-nav">
         <button className="brand-lockup brand-on-light" onClick={() => setLocation("/")}><span className="brand-mark">৳</span>Invoice<span>Pro</span></button>
-        <Button variant="ghost" onClick={enterWorkspace} className="text-ink hover:bg-ink/5">{isAuthenticated ? "Open workspace" : "Sign in"}<ChevronRight size={16} /></Button>
+        <div className="nav-actions"><button className="pricing-link" onClick={() => setLocation("/pricing")}>Pricing</button><Button variant="ghost" onClick={enterWorkspace} className="text-ink hover:bg-ink/5">{isAuthenticated ? "Open workspace" : "Sign in"}<ChevronRight size={16} /></Button></div>
       </header>
       <main>
         <section className="hero-grid">
@@ -21,7 +20,7 @@ export default function Home() {
             <p className="eyebrow">BUILT FOR BANGLADESHI FREELANCERS</p>
             <h1>Invoice clearly.<br /><em>Get paid</em> confidently.</h1>
             <p className="hero-lede">Create BDT invoices, share them in one tap, and stay ahead of every follow-up—from your phone.</p>
-            <div className="hero-actions"><Button size="lg" onClick={enterWorkspace}>Create your first invoice <ChevronRight size={17} /></Button><span>No cards. Manual activation.</span></div>
+            <div className="hero-actions"><Button size="lg" onClick={enterWorkspace}>{isAuthenticated ? "Open workspace" : "Start 14-day free trial"} <ChevronRight size={17} /></Button><span>No card. Local payment after trial.</span></div>
             <div className="hero-proof"><span><Check size={15} /> BDT only</span><span><Check size={15} /> bKash, Nagad &amp; Rocket</span><span><Check size={15} /> Client links, no login</span></div>
           </div>
           <div className="hero-art" aria-label="InvoicePro invoice preview">
@@ -37,6 +36,7 @@ export default function Home() {
           </div>
         </section>
         <section className="value-strip"><div><FileText /><span><strong>Professional invoices</strong><small>That carry your business details.</small></span></div><div><Send /><span><strong>Quick sharing</strong><small>Messages prepared for you.</small></span></div><div><WalletCards /><span><strong>Better follow-ups</strong><small>Know exactly who to contact.</small></span></div></section>
+        <section className="trust-ribbon"><ShieldCheck size={18} /><p><strong>Built for how Bangladeshi freelancers get paid.</strong> BDT-only invoices, local payment instructions, and no client account required.</p></section>
       </main>
     </div>
   );

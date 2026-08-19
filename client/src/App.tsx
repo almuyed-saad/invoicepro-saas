@@ -15,11 +15,18 @@ import Invoices from "./pages/Invoices";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import PublicInvoice from "./pages/PublicInvoice";
+import Auth from "./pages/Auth";
+import Onboarding from "./pages/Onboarding";
+import Subscription from "./pages/Subscription";
+import Pricing from "./pages/Pricing";
 
 function Workspace({ children }: { children: React.ReactNode }) { return <DashboardLayout>{children}</DashboardLayout>; }
 function Router() {
   return <Switch>
     <Route path="/" component={Home} />
+    <Route path="/sign-in" component={Auth} />
+    <Route path="/pricing" component={Pricing} />
+    <Route path="/onboarding" component={Onboarding} />
     <Route path="/share/:token" component={PublicInvoice} />
     <Route path="/dashboard">{() => <Workspace><Dashboard /></Workspace>}</Route>
     <Route path="/invoices/new">{() => <Workspace><InvoiceEditor /></Workspace>}</Route>
@@ -29,6 +36,7 @@ function Router() {
     <Route path="/clients">{() => <Workspace><Clients /></Workspace>}</Route>
     <Route path="/follow-ups">{() => <Workspace><FollowUps /></Workspace>}</Route>
     <Route path="/profile">{() => <Workspace><Profile /></Workspace>}</Route>
+    <Route path="/subscription">{() => <Workspace><Subscription /></Workspace>}</Route>
     <Route path="/admin">{() => <Workspace><Admin /></Workspace>}</Route>
     <Route component={NotFound} />
   </Switch>;

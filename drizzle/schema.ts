@@ -13,13 +13,26 @@ export const users = mysqlTable("users", {
   id: int("id").autoincrement().primaryKey(),
   openId: varchar("openId", { length: 64 }).notNull().unique(),
   name: text("name"),
-  email: varchar("email", { length: 320 }),
+  email: varchar("email", { length: 320 }).unique(),
   loginMethod: varchar("loginMethod", { length: 64 }),
   role: mysqlEnum("role", ["admin", "user"]).default("user").notNull(),
+  customerSessionVersion: int("customerSessionVersion").default(0).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
 });
+
+export const customerCredentials = mysqlTable(
+  "customerCredentials",
+  {
+    userId: int("userId")
+      .primaryKey()
+      .references(() => users.id, { onDelete: "cascade" }),
+    passwordHash: varchar("passwordHash", { length: 255 }).notNull(),
+    passwordUpdatedAt: timestamp("passwordUpdatedAt").defaultNow().notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+);
 
 export const invoiceStatusValues = [
   "draft",
@@ -177,7 +190,9 @@ export const subscriptions = mysqlTable(
     userId: int("userId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
-    status: mysqlEnum("status", ["inactive", "active", "expired"]).default("inactive").notNull(),
+    status: mysqlEnum("status", ["inactive", "trial", "active", "expired"]).default("inactive").notNull(),
+    planCode: mysqlEnum("planCode", ["solo", "pro"]).default("solo").notNull(),
+    trialEndsAt: timestamp("trialEndsAt"),
     activeUntil: timestamp("activeUntil"),
     lastPaymentMethod: mysqlEnum("lastPaymentMethod", paymentMethodValues),
     ownerNote: text("ownerNote"),
@@ -187,6 +202,42 @@ export const subscriptions = mysqlTable(
   },
   table => [uniqueIndex("subscriptions_user_id_unique").on(table.userId)],
 );
+
+export const paymentRequestStatusValues = ["pending", "approved", "rejected"] as const;
+
+export const paymentRequests = mysqlTable(
+  "paymentRequests",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    userId: int("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    planCode: mysqlEnum("planCode", ["solo", "pro"]).default("solo").notNull(),
+    preferredMethod: mysqlEnum("preferredMethod", paymentMethodValues).notNull(),
+    paymentReference: varchar("paymentReference", { length: 160 }),
+    payerNumber: varchar("payerNumber", { length: 40 }),
+    userNote: text("userNote"),
+    status: mysqlEnum("status", paymentRequestStatusValues).default("pending").notNull(),
+    ownerNote: text("ownerNote"),
+    reviewedAt: timestamp("reviewedAt"),
+    reviewedByUserId: int("reviewedByUserId").references(() => users.id, { onDelete: "set null" }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  table => [index("payment_requests_user_created_index").on(table.userId, table.createdAt), index("payment_requests_status_created_index").on(table.status, table.createdAt)],
+);
+
+export const platformSettings = mysqlTable("platformSettings", {
+  id: int("id").primaryKey(),
+  bkashNumber: varchar("bkashNumber", { length: 40 }),
+  nagadNumber: varchar("nagadNumber", { length: 40 }),
+  rocketNumber: varchar("rocketNumber", { length: 40 }),
+  bankTransferInstructions: text("bankTransferInstructions"),
+  supportEmail: varchar("supportEmail", { length: 320 }),
+  supportWhatsApp: varchar("supportWhatsApp", { length: 40 }),
+  updatedByUserId: int("updatedByUserId").references(() => users.id, { onDelete: "set null" }),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
 
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
