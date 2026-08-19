@@ -1,4 +1,3 @@
-import { startLogin } from "@/const";
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
 import { ArrowLeft, ArrowRight, CheckCircle2, Eye, EyeOff, ShieldCheck } from "lucide-react";
@@ -61,7 +60,7 @@ export default function Auth() {
           <Button type="submit" className="customer-cta" disabled={pending}>{pending ? "Please wait…" : mode === "register" ? <>Start free trial <ArrowRight size={17} /></> : <>Open workspace <ArrowRight size={17} /></>}</Button>
         </form>
         <p className="account-switch">{mode === "register" ? "Already have an account?" : "New to InvoicePro?"} <button type="button" onClick={() => setMode(mode === "register" ? "login" : "register")}>{mode === "register" ? "Sign in" : "Start your free trial"}</button></p>
-        <div className="owner-access"><ShieldCheck size={15} /><button type="button" onClick={startLogin}>Platform owner sign-in</button></div>
+        <div className="owner-access"><ShieldCheck size={15} /><span>Platform owner: sign in with your InvoicePro email and password.</span></div>
       </div>
     </section>
   </main>;
