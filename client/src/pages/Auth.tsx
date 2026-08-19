@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2, Eye, EyeOff, ShieldCheck } from "l
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import { Link, useLocation } from "wouter";
+import { requireAuthenticatedCustomer } from "@shared/customerAuthNavigation";
 
 export default function Auth() {
   const [, setLocation] = useLocation();
@@ -23,14 +24,12 @@ export default function Auth() {
     try {
       if (mode === "register") {
         await register.mutateAsync({ name, email, password });
-        const customer = await utils.auth.me.fetch();
-        if (!customer) throw new Error("Your account was created, but the session could not be opened. Please sign in again.");
+        await requireAuthenticatedCustomer(() => utils.auth.me.fetch(), "Your account was created, but the session could not be opened. Please sign in again.");
         toast.success("Your 14-day trial is ready");
         setLocation("/onboarding");
       } else {
         await login.mutateAsync({ email, password });
-        const customer = await utils.auth.me.fetch();
-        if (!customer) throw new Error("Your credentials were accepted, but the session could not be opened. Please try again.");
+        await requireAuthenticatedCustomer(() => utils.auth.me.fetch(), "Your credentials were accepted, but the session could not be opened. Please try again.");
         toast.success("Welcome back");
         setLocation(next);
       }

@@ -51,4 +51,6 @@
 - [x] Provision an isolated InvoicePro production database without resetting or altering the user’s shared Supabase project.
 - [x] Seed the owner-provided bKash, Nagad, Rocket, WhatsApp, and support-email payment details in the isolated production database.
 - [x] Verify a separate live customer sign-in after logout, confirm protected workspace access, and remove the temporary QA account from invoice-pro-saas.netlify.app.
-- [ ] Fix the live customer authentication flow so newly registered and returning customers leave the sign-in screen and enter the protected workspace reliably.
+- [x] Fix the live customer authentication flow so newly registered and returning customers leave the sign-in screen and enter the protected workspace reliably.
+- [ ] Verify the repaired live new-customer registration, onboarding, logout, and returning-customer browser flow with a temporary QA account, then remove all related QA data.
+- [ ] Add automated coverage for post-register and post-login customer session refresh and protected-route gating.
