@@ -591,21 +591,6 @@ export async function savePlatformSettings(adminUserId: number, input: {
   return getPlatformSettings();
 }
 
-export async function removeApprovedQaUser(email: string) {
-  const normalizedEmail = email.trim().toLowerCase();
-  if (!/^qa-live-[a-z0-9-]+@qa\.invoicepro\.local$/.test(normalizedEmail)) {
-    throw new Error("Only an explicitly labelled QA customer can be removed");
-  }
-
-  const db = await getDb();
-  const record = await getUserByEmail(normalizedEmail);
-  if (!record) return { removed: false } as const;
-  if (record.role !== "user") throw new Error("Only a QA customer account can be removed");
-
-  await db.delete(users).where(eq(users.id, record.id));
-  return { removed: true } as const;
-}
-
 export async function listAdminUsers() {
   const db = await getDb();
   const result = await db
