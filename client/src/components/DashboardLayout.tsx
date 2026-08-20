@@ -78,7 +78,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   isActive={activeItem?.path === item.path}
                   onClick={() => setLocation(item.path)}
                   tooltip={item.label}
-                  className="sidebar-link h-11 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white data-[active=true]:bg-white data-[active=true]:text-ink"
+                  className="sidebar-link h-11 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white"
                 >
                   <item.icon size={18} />
                   <span>{item.label}</span>
