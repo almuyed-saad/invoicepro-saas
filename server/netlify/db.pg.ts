@@ -84,6 +84,19 @@ export async function getUserByEmail(email: string): Promise<User | undefined> {
   return result[0];
 }
 
+export function isTemporaryQaEmail(email: string) {
+  return /^qa-release-audit-[a-z0-9-]+@qa\.invoicepro\.invalid$/i.test(email);
+}
+
+export async function deleteTemporaryQaAccount(email: string) {
+  const normalizedEmail = email.toLowerCase();
+  if (!isTemporaryQaEmail(normalizedEmail)) throw new Error("Only a labelled temporary QA account may be deleted");
+  const db = await getDb();
+  const deleted = await db.delete(users).where(and(eq(users.email, normalizedEmail), eq(users.role, "user"))).returning({ id: users.id });
+  if (!deleted[0]) throw new Error("Temporary QA account not found");
+  return { success: true } as const;
+}
+
 export async function createCustomerAccount(input: { name: string; email: string; passwordHash: string }) {
   const db = await getDb();
   const email = input.email.toLowerCase();

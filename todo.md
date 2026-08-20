@@ -62,6 +62,8 @@
 - [x] Verify production-router unauthorized subscription and owner-only requests return controlled authorization errors during live QA rather than a runtime failure.
 - [x] Verify a no-access customer receives controlled forbidden responses from subscription-gated invoice and client mutations during live QA.
 - [x] Complete live invoice-share action checks and a screen-by-screen visual QA pass for the key customer and owner pages, then document verified limitations.
-- [ ] Complete browser verification of invoice-detail Email invoice, WhatsApp, copy-link, and copy-message controls using a temporary QA invoice, then remove the account and records.
-- [ ] Complete browser visual verification of key owner/admin screens and record verified release limitations before final handover.
-- [ ] Fix the owner-admin route remaining on “Opening your workspace” after a valid owner sign-in, then reverify the administration screen.
+- [x] Complete browser verification of invoice-detail Email invoice, WhatsApp, copy-link, and copy-message controls using a temporary QA invoice, then remove the account and records.
+- [x] Complete browser visual verification of key owner/admin screens and record verified release limitations before final handover.
+- [x] Fix the owner-admin route remaining on “Opening your workspace” after a valid owner sign-in, then reverify the administration screen.
+- [ ] Run browser QA on a temporary release-audit invoice detail page and explicitly verify Email invoice, WhatsApp, Copy client link, and copy-message actions before cleanup.
+- [ ] Record the release-audit scope, verified functions, and known limitations in a concise project handover note.
