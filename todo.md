@@ -71,4 +71,5 @@
 - [x] Fix low-contrast text and icon rendering for the active Subscription item in the mobile workspace sidebar.
 - [x] Verify the live protected production InvoicePro database health through the owner dashboard and a safe application read, and provide the owner dashboard link without exposing credentials.
 - [x] Implement and test a controlled not-found response instead of an internal-server error for a missing public invoice token.
-- [ ] Publish the tested public-invoice not-found response fix once Netlify production deployments resume.
+- [ ] Resume Netlify production deployments and publish the tested public-invoice not-found response fix.
+- [x] Rewrite and publish a professional GitHub README with InvoicePro live links, feature scope, setup guidance, database ownership, and deployment status.
