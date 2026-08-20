@@ -90,14 +90,9 @@ export function isTemporaryQaEmail(email: string) {
 
 export async function deleteTemporaryQaAccount(email: string) {
   const normalizedEmail = email.toLowerCase();
-  if (!isTemporaryQaEmail(normalizedEmail)) {
-    throw new Error("Only a labelled temporary QA account may be deleted");
-  }
+  if (!isTemporaryQaEmail(normalizedEmail)) throw new Error("Only a labelled temporary QA account may be deleted");
   const db = await getDb();
-  const deleted = await db.delete(users).where(and(
-    eq(users.email, normalizedEmail),
-    eq(users.role, "user"),
-  )).returning({ id: users.id });
+  const deleted = await db.delete(users).where(and(eq(users.email, normalizedEmail), eq(users.role, "user"))).returning({ id: users.id });
   if (!deleted[0]) throw new Error("Temporary QA account not found");
   return { success: true } as const;
 }

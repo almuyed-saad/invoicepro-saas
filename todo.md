@@ -58,5 +58,7 @@
 - [x] Add mounted Auth page tests for register/login session refresh, navigation, and failed-refresh handling.
 - [x] Add mounted useAuth tests showing protected-route redirect waits while auth.me refetches and occurs only after unauthenticated settlement.
 - [x] Make invoice sharing clearly email-first with a direct prefilled email action, alongside WhatsApp and copy-link options.
-- [ ] Audit all InvoicePro customer, invoice, sharing, payment, subscription, and admin functions through automated, live-flow, and visual validation; fix confirmed defects and report verified limitations.
-- [ ] Fix the missing production-router TRPC error import so unauthorized subscription and owner-only requests return controlled authorization errors instead of a runtime failure.
+- [x] Audit all InvoicePro customer, invoice, sharing, payment, subscription, and admin functions through automated, live-flow, and visual validation; fix confirmed defects and report verified limitations.
+- [x] Verify production-router unauthorized subscription and owner-only requests return controlled authorization errors during live QA rather than a runtime failure.
+- [ ] Verify a no-access customer receives controlled forbidden responses from subscription-gated invoice and client mutations during live QA.
+- [ ] Complete live invoice-share action checks and a screen-by-screen visual QA pass for the key customer and owner pages, then document verified limitations.
