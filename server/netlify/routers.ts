@@ -160,7 +160,6 @@ export const appRouter = router({
     })).mutation(({ ctx, input }) => db.updateSubscription(ctx.user.id, input)),
     paymentRequests: ownerProcedure().query(() => db.listAdminPaymentRequests()),
     reviewPaymentRequest: ownerProcedure().input(z.object({ requestId: z.number().int().positive(), status: z.enum(["approved", "rejected"]), ownerNote: z.string().trim().max(2000).nullable().optional() })).mutation(({ ctx, input }) => db.reviewPaymentRequest(ctx.user.id, input)),
-    cleanupTemporaryQa: ownerProcedure().input(z.object({ email: z.string().trim().email().max(320) })).mutation(({ input }) => db.deleteTemporaryQaAccount(input.email)),
   }),
 });
 

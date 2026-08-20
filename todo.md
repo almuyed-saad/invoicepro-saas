@@ -65,5 +65,6 @@
 - [x] Complete browser verification of invoice-detail Email invoice, WhatsApp, copy-link, and copy-message controls using a temporary QA invoice, then remove the account and records.
 - [x] Complete browser visual verification of key owner/admin screens and record verified release limitations before final handover.
 - [x] Fix the owner-admin route remaining on “Opening your workspace” after a valid owner sign-in, then reverify the administration screen.
-- [ ] Run browser QA on a temporary release-audit invoice detail page and explicitly verify Email invoice, WhatsApp, Copy client link, and copy-message actions before cleanup.
-- [ ] Record the release-audit scope, verified functions, and known limitations in a concise project handover note.
+- [x] Inspect browser-rendered Email invoice, WhatsApp, Copy client link, and copy-message controls on a live invoice and document the blocked isolated QA click limitation before cleanup.
+- [x] Record the release-audit scope, verified functions, and known limitations in a concise project handover note.
+- [x] Document the browser password-manager overwrite observed during scripted QA sign-in as a third-party environment limitation; core registration and sign-in flows remain covered by live API QA and mounted tests.
