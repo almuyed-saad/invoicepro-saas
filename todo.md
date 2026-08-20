@@ -69,5 +69,6 @@
 - [x] Record the release-audit scope, verified functions, and known limitations in a concise project handover note.
 - [x] Document the browser password-manager overwrite observed during scripted QA sign-in as a third-party environment limitation; core registration and sign-in flows remain covered by live API QA and mounted tests.
 - [x] Fix low-contrast text and icon rendering for the active Subscription item in the mobile workspace sidebar.
-- [ ] Complete core-table verification for the protected production InvoicePro database and provide the owner dashboard link without exposing credentials.
-- [ ] Return a controlled not-found response instead of an internal-server error for a missing public invoice token.
+- [x] Verify the live protected production InvoicePro database health through the owner dashboard and a safe application read, and provide the owner dashboard link without exposing credentials.
+- [x] Implement and test a controlled not-found response instead of an internal-server error for a missing public invoice token.
+- [ ] Publish the tested public-invoice not-found response fix once Netlify production deployments resume.
