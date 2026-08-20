@@ -57,3 +57,4 @@
 - [x] Add integration-focused automated coverage for Auth and useAuth, verifying session refresh before navigation and delayed protected-route redirects during refetch.
 - [x] Add mounted Auth page tests for register/login session refresh, navigation, and failed-refresh handling.
 - [x] Add mounted useAuth tests showing protected-route redirect waits while auth.me refetches and occurs only after unauthenticated settlement.
+- [x] Make invoice sharing clearly email-first with a direct prefilled email action, alongside WhatsApp and copy-link options.
