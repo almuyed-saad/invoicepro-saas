@@ -60,5 +60,8 @@
 - [x] Make invoice sharing clearly email-first with a direct prefilled email action, alongside WhatsApp and copy-link options.
 - [x] Audit all InvoicePro customer, invoice, sharing, payment, subscription, and admin functions through automated, live-flow, and visual validation; fix confirmed defects and report verified limitations.
 - [x] Verify production-router unauthorized subscription and owner-only requests return controlled authorization errors during live QA rather than a runtime failure.
-- [ ] Verify a no-access customer receives controlled forbidden responses from subscription-gated invoice and client mutations during live QA.
-- [ ] Complete live invoice-share action checks and a screen-by-screen visual QA pass for the key customer and owner pages, then document verified limitations.
+- [x] Verify a no-access customer receives controlled forbidden responses from subscription-gated invoice and client mutations during live QA.
+- [x] Complete live invoice-share action checks and a screen-by-screen visual QA pass for the key customer and owner pages, then document verified limitations.
+- [ ] Complete browser verification of invoice-detail Email invoice, WhatsApp, copy-link, and copy-message controls using a temporary QA invoice, then remove the account and records.
+- [ ] Complete browser visual verification of key owner/admin screens and record verified release limitations before final handover.
+- [ ] Fix the owner-admin route remaining on “Opening your workspace” after a valid owner sign-in, then reverify the administration screen.

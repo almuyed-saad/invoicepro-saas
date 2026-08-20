@@ -53,10 +53,12 @@ export function useAuth(options?: UseAuthOptions) {
     isLoggingOut: logoutMutation.isPending,
   });
 
+  const initialWorkspaceLoad = meQuery.isLoading || logoutMutation.isPending;
+
   const state = useMemo(() => {
     return {
       user: meQuery.data ?? null,
-      loading: sessionCheckPending,
+      loading: initialWorkspaceLoad,
       error: meQuery.error ?? logoutMutation.error ?? null,
       isAuthenticated: Boolean(meQuery.data),
     };
@@ -64,6 +66,7 @@ export function useAuth(options?: UseAuthOptions) {
     meQuery.data,
     meQuery.error,
     logoutMutation.error,
+    initialWorkspaceLoad,
     sessionCheckPending,
   ]);
 
