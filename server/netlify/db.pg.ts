@@ -469,7 +469,7 @@ export async function getPublicInvoice(publicToken: string) {
   const db = await getDb();
   const invoiceResult = await db.select().from(invoices).where(eq(invoices.publicToken, publicToken)).limit(1);
   const invoice = invoiceResult[0];
-  if (!invoice) throw new Error("Invoice not found");
+  if (!invoice) return null;
   const [profile, items] = await Promise.all([
     getProfile(invoice.userId),
     db.select().from(invoiceItems).where(eq(invoiceItems.invoiceId, invoice.id)).orderBy(invoiceItems.sortOrder),
@@ -482,14 +482,14 @@ export async function markPublicInvoiceViewed(publicToken: string) {
   const db = await getDb();
   const invoiceResult = await db.select().from(invoices).where(eq(invoices.publicToken, publicToken)).limit(1);
   const invoice = invoiceResult[0];
-  if (!invoice) throw new Error("Invoice not found");
+  if (!invoice) return false;
   await db.transaction(async tx => {
     await tx.insert(invoiceViews).values({ invoiceId: invoice.id });
     if (invoice.status === "sent") {
       await tx.update(invoices).set({ status: "viewed", viewedAt: new Date() }).where(eq(invoices.id, invoice.id));
     }
   });
-  return { success: true } as const;
+  return true;
 }
 
 export async function getSubscription(userId: number) {

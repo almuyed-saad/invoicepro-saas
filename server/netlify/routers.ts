@@ -140,8 +140,16 @@ export const appRouter = router({
     requestPayment: protectedProcedure.input(z.object({ planCode: z.enum(["solo", "pro"]), preferredMethod: paymentMethodSchema, paymentReference: z.string().trim().max(160).nullable().optional(), payerNumber: z.string().trim().max(40).nullable().optional(), userNote: z.string().trim().max(1000).nullable().optional() })).mutation(({ ctx, input }) => db.createPaymentRequest(ctx.user.id, input)),
   }),
   publicInvoice: router({
-    get: publicProcedure.input(z.object({ token: z.string().min(20).max(64) })).query(({ input }) => db.getPublicInvoice(input.token)),
-    markViewed: publicProcedure.input(z.object({ token: z.string().min(20).max(64) })).mutation(({ input }) => db.markPublicInvoiceViewed(input.token)),
+    get: publicProcedure.input(z.object({ token: z.string().min(20).max(64) })).query(async ({ input }) => {
+      const invoice = await db.getPublicInvoice(input.token);
+      if (!invoice) throw new TRPCError({ code: "NOT_FOUND", message: "Invoice not found" });
+      return invoice;
+    }),
+    markViewed: publicProcedure.input(z.object({ token: z.string().min(20).max(64) })).mutation(async ({ input }) => {
+      const wasMarked = await db.markPublicInvoiceViewed(input.token);
+      if (!wasMarked) throw new TRPCError({ code: "NOT_FOUND", message: "Invoice not found" });
+      return { success: true } as const;
+    }),
   }),
   platform: router({
     settings: publicProcedure.query(() => db.getPlatformSettings()),
